@@ -2,7 +2,7 @@
 set -euo pipefail
 
 DIR="$HOME/.local/share/homelab"
-BASE_URL="https://raw.githubusercontent.com/illa-j/unkre/main/deploy/homelab"
+BASE_URL="https://cdn.jsdelivr.net/gh/illa-j/unkre@main/deploy/homelab"
 
 mkdir -p "$DIR" "$HOME/.config/systemd/user"
 curl -fsSL "$BASE_URL/agent.py" -o "$DIR/agent.py"

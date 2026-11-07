@@ -1,7 +1,7 @@
 #!/data/data/com.termux/files/usr/bin/bash
 set -euo pipefail
 
-BASE_URL="https://raw.githubusercontent.com/illa-j/unkre/main/deploy/homelab"
+BASE_URL="https://cdn.jsdelivr.net/gh/illa-j/unkre@main/deploy/homelab"
 PANEL_DIR="$HOME/panel"
 ENV_FILE="$HOME/.panel.env"
 SVDIR="${PREFIX}/var/service"
