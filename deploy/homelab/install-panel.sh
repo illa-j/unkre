@@ -1,6 +1,8 @@
 #!/data/data/com.termux/files/usr/bin/bash
 set -euo pipefail
 
+termux-wake-lock 2>/dev/null || true
+
 BASE_URL="https://cdn.jsdelivr.net/gh/illa-j/unkre@main/deploy/homelab"
 PANEL_DIR="$HOME/panel"
 ENV_FILE="$HOME/.panel.env"
@@ -93,9 +95,9 @@ if command -v proot-distro >/dev/null 2>&1; then
     "sed -i 's/listen 127.0.0.1:18081;/listen 18081;/' /etc/nginx/unkre.conf; \
      sed -i 's/listen 127.0.0.1:18083;/listen 18083;/' /etc/nginx/nocensgen.conf; \
      nginx -t -c /etc/nginx/unkre.conf >/dev/null 2>&1; \
-     nginx -t -c /etc/nginx/nocensgen.conf >/dev/null 2>&1" || true
-  sv restart stack 2>/dev/null || true
-  sleep 5
+     nginx -t -c /etc/nginx/nocensgen.conf >/dev/null 2>&1; \
+     nginx -c /etc/nginx/unkre.conf -s reload 2>/dev/null || true; \
+     nginx -c /etc/nginx/nocensgen.conf -s reload 2>/dev/null || true" || true
 fi
 
 echo

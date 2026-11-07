@@ -1,13 +1,17 @@
 import base64
+import hashlib
 import hmac
+import html
 import json
 import os
 import socket
 import subprocess
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
+from http.cookies import SimpleCookie
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
@@ -26,6 +30,10 @@ LOG_BASE = os.environ.get(
     "LOG_BASE",
     str(Path(os.environ.get("PREFIX", "/data/data/com.termux/files/usr")) / "var/log/sv"),
 )
+SESSION_SECRET = os.environ.get("PANEL_SECRET") or hashlib.sha256(
+    f"homelab:{PANEL_PASSWORD}".encode()
+).hexdigest()
+SESSION_MAX_AGE = 7 * 24 * 3600
 
 PHONE_SERVICES = [
     {"id": "sshd", "name": "SSH", "controllable": True},
@@ -156,17 +164,80 @@ def overview() -> dict:
     }
 
 
-def check_basic_auth(header: str | None) -> bool:
-    if not PANEL_PASSWORD or not header:
-        return False
-    if not header.startswith("Basic "):
+def make_session(username: str) -> str:
+    payload = f"{username}:{int(time.time())}"
+    signature = hmac.new(SESSION_SECRET.encode(), payload.encode(), hashlib.sha256).hexdigest()
+    return base64.urlsafe_b64encode(f"{payload}:{signature}".encode()).decode()
+
+
+def valid_session(token: str | None) -> bool:
+    if not token:
         return False
     try:
-        decoded = base64.b64decode(header.split(" ", 1)[1]).decode("utf-8", "replace")
-        username, _, password = decoded.partition(":")
+        raw = base64.urlsafe_b64decode(token.encode()).decode()
+        username, timestamp, signature = raw.rsplit(":", 2)
+        payload = f"{username}:{timestamp}"
+        expected = hmac.new(SESSION_SECRET.encode(), payload.encode(), hashlib.sha256).hexdigest()
+        if not hmac.compare_digest(signature, expected):
+            return False
+        if time.time() - int(timestamp) > SESSION_MAX_AGE:
+            return False
+        return hmac.compare_digest(username, PANEL_USER)
     except Exception:  # noqa: BLE001
         return False
-    return hmac.compare_digest(username, PANEL_USER) and hmac.compare_digest(password, PANEL_PASSWORD)
+
+
+def get_session(handler: BaseHTTPRequestHandler) -> str | None:
+    cookie = SimpleCookie(handler.headers.get("Cookie", ""))
+    morsel = cookie.get("panel_session")
+    return morsel.value if morsel else None
+
+
+def login_page(error: str = "") -> str:
+    error_html = f'<div class="error">{html.escape(error)}</div>' if error else ""
+    return f"""<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home Lab · Вхід</title>
+<style>
+  :root {{ --bg:#0b0e14; --panel:#131823; --border:#263044; --text:#e8eefc; --muted:#8b98b3; --red:#f87171; }}
+  * {{ box-sizing:border-box; }}
+  body {{ margin:0; min-height:100vh; display:grid; place-items:center; padding:20px;
+    font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; color:var(--text);
+    background:radial-gradient(900px 500px at 15% -10%, #1b2a4a 0%, transparent 55%),
+               radial-gradient(700px 400px at 100% 0%, #2a1b3d 0%, transparent 50%), var(--bg); }}
+  .card {{ width:min(380px,100%); background:linear-gradient(180deg,rgba(26,33,48,.96),rgba(19,24,35,.98));
+    border:1px solid var(--border); border-radius:20px; padding:28px; box-shadow:0 24px 70px rgba(0,0,0,.35); }}
+  h1 {{ margin:0; font-size:30px; letter-spacing:-.04em; }}
+  .sub {{ color:var(--muted); font-size:13px; margin:6px 0 22px; }}
+  label {{ display:block; font-size:12px; color:var(--muted); margin-bottom:12px; }}
+  input {{ width:100%; margin-top:6px; padding:12px 13px; border-radius:11px; border:1px solid var(--border);
+    background:#0e131c; color:var(--text); font:inherit; outline:none; }}
+  input:focus {{ border-color:#3b82f6; box-shadow:0 0 0 3px rgba(59,130,246,.16); }}
+  button {{ width:100%; margin-top:4px; padding:12px; border-radius:11px; border:1px solid #2563eb;
+    background:#1d4ed8; color:#fff; font:inherit; font-weight:600; cursor:pointer; }}
+  button:hover {{ background:#2563eb; }}
+  .error {{ background:#2a1218; border:1px solid #7f1d1d; color:#fecaca; border-radius:10px;
+    padding:10px 12px; font-size:13px; margin-bottom:14px; }}
+  .hint {{ color:var(--muted); font-size:11px; margin-top:14px; text-align:center; }}
+</style>
+</head>
+<body>
+<main class="card">
+  <h1>HOME LAB</h1>
+  <div class="sub">Вхід до панелі керування</div>
+  {error_html}
+  <form method="post" action="/login">
+    <label>Логін<input name="username" autocomplete="username" autofocus required></label>
+    <label>Пароль<input name="password" type="password" autocomplete="current-password" required></label>
+    <button type="submit">Увійти</button>
+  </form>
+  <div class="hint">Телефон · ПК · Docker</div>
+</main>
+</body>
+</html>"""
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -187,22 +258,42 @@ class Handler(BaseHTTPRequestHandler):
     def _json(self, payload: dict, status: int = 200) -> None:
         self._send(json.dumps(payload, ensure_ascii=False), status, "application/json; charset=utf-8")
 
-    def _auth(self) -> bool:
-        if check_basic_auth(self.headers.get("Authorization")):
-            return True
-        self._send(
-            "Unauthorized",
-            401,
-            "text/plain; charset=utf-8",
-        )
-        return False
+    def _redirect(self, location: str, cookie: str | None = None) -> None:
+        self.send_response(302)
+        self.send_header("Location", location)
+        if cookie:
+            self.send_header("Set-Cookie", cookie)
+        self.send_header("Content-Length", "0")
+        self.end_headers()
+
+    def _authorized(self) -> bool:
+        return valid_session(get_session(self))
+
+    def _deny(self, api: bool) -> None:
+        if api:
+            self._json({"ok": False, "error": "unauthorized"}, 401)
+        else:
+            self._redirect("/login")
 
     def do_GET(self) -> None:  # noqa: N802
         path = urllib.parse.urlparse(self.path).path
         if path == "/healthz":
             self._json({"ok": True, "service": "homelab-panel"})
             return
-        if not self._auth():
+        if path == "/login":
+            if self._authorized():
+                self._redirect("/")
+            else:
+                self._send(login_page(), 200, "text/html; charset=utf-8")
+            return
+        if path == "/logout":
+            self._redirect(
+                "/login",
+                "panel_session=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax",
+            )
+            return
+        if not self._authorized():
+            self._deny(path.startswith("/api/"))
             return
         if path == "/":
             self._send(INDEX_HTML, 200, "text/html; charset=utf-8")
@@ -227,12 +318,30 @@ class Handler(BaseHTTPRequestHandler):
             self._send("not found", 404)
 
     def do_POST(self) -> None:  # noqa: N802
-        if not self._auth():
+        path = urllib.parse.urlparse(self.path).path
+        if path == "/login":
+            length = int(self.headers.get("Content-Length", "0") or 0)
+            body = self.rfile.read(length).decode("utf-8", "replace")
+            form = urllib.parse.parse_qs(body)
+            username = form.get("username", [""])[0]
+            password = form.get("password", [""])[0]
+            if hmac.compare_digest(username, PANEL_USER) and hmac.compare_digest(
+                password, PANEL_PASSWORD
+            ):
+                cookie = (
+                    f"panel_session={make_session(PANEL_USER)}; Path=/; "
+                    f"Max-Age={SESSION_MAX_AGE}; HttpOnly; SameSite=Lax"
+                )
+                self._redirect("/", cookie)
+            else:
+                self._send(login_page("Невірний логін або пароль"), 401, "text/html; charset=utf-8")
+            return
+        if not self._authorized():
+            self._deny(True)
             return
         if self.headers.get("X-Panel") != "1":
             self._json({"ok": False, "output": "missing panel header"}, 403)
             return
-        path = urllib.parse.urlparse(self.path).path
         parts = [urllib.parse.unquote(part) for part in path.strip("/").split("/")]
         if len(parts) == 4 and parts[0] == "api" and parts[1] == "phone":
             _, _, service_id, action = parts
@@ -305,6 +414,8 @@ INDEX_HTML = r"""<!doctype html>
   .links { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px; }
   a.link { display: flex; align-items: center; justify-content: space-between; gap: 10px; text-decoration: none; color: var(--text); background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 13px 14px; transition: .15s; }
   a.link:hover { border-color: #3d4c68; transform: translateY(-1px); }
+  a.chip { text-decoration: none; color: var(--muted); transition: .15s; }
+  a.chip:hover { color: var(--text); border-color: #3d4c68; }
   a.link .meta { display: flex; flex-direction: column; gap: 2px; }
   a.link small { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .1em; }
   .table { width: 100%; border-collapse: collapse; overflow: hidden; border-radius: 14px; border: 1px solid var(--border); }
@@ -338,6 +449,7 @@ INDEX_HTML = r"""<!doctype html>
       <span class="chip"><span id="phone-dot" class="dot"></span><span id="phone-summary">Телефон</span></span>
       <span class="chip"><span id="pc-dot" class="dot"></span><span id="pc-summary">ПК</span></span>
       <button id="refresh" class="primary">Оновити</button>
+      <a class="chip" href="/logout">Вийти</a>
     </div>
   </header>
 
