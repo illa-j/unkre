@@ -86,3 +86,24 @@ systemctl --user restart homelab-agent
 - `~/.bashrc` піднімає `runsvdir` і proot-стек при відкритті Termux;
 - `~/.termux/boot/start-all.sh` — для Termux:Boot;
 - на ПК — systemd user service `homelab-agent` з `loginctl enable-linger`.
+
+## Телефон не засинає
+
+На POCO F6 через ADB застосовано:
+
+```bash
+adb shell dumpsys deviceidle whitelist +com.termux
+adb shell cmd appops set com.termux RUN_ANY_IN_BACKGROUND allow
+adb shell am set-standby-bucket com.termux active
+adb shell device_config put activity_manager max_phantom_processes 2147483647
+adb shell appops set com.android.shell WRITE_SETTINGS allow
+adb shell settings put system screen_off_timeout 2147483647
+```
+
+Плюс `termux-wake-lock` у `.bashrc` і кнопка **Wake lock** у панелі.
+
+Повернути звичайний таймаут екрана:
+
+```bash
+adb shell settings put system screen_off_timeout 600000
+```

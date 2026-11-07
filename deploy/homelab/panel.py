@@ -575,6 +575,12 @@ INDEX_HTML = r"""<!doctype html>
   .bar > i { display:block; height:100%; background:linear-gradient(90deg,#2563eb,#7c3aed); border-radius:999px; }
   .bar.green > i { background:linear-gradient(90deg,#059669,#34d399); }
   .bar.amber > i { background:linear-gradient(90deg,#d97706,#fbbf24); }
+  .bar.red > i { background:linear-gradient(90deg,#b91c1c,#f87171); }
+  .pc-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:12px; }
+  .pc-card { background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:13px; }
+  .pc-head { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+  .pc-meta { display:flex; gap:6px; flex-wrap:wrap; margin-top:10px; }
+  .pc-ports { margin-top:9px; word-break:break-all; }
   .quick { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
   .toolbar { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:10px; }
   input[type="search"], select { font:inherit; color:var(--text); background:var(--panel); border:1px solid var(--border);
@@ -851,30 +857,31 @@ function renderPC(ok, error, items) {
     return;
   }
   $('pc-wrap').innerHTML = `
-    <table class="table">
-      <thead><tr><th>Контейнер</th><th>Стан</th><th>CPU</th><th>RAM</th><th>Порти</th><th>Дії</th></tr></thead>
-      <tbody>
+    <div class="pc-grid">
       ${list.map((item) => {
         const running = item.state === 'running';
         const stats = item.stats || {};
-        return `<tr>
-          <td><div class="name">${esc(item.name)}</div><div class="mono">${esc(item.image)}</div></td>
-          <td><span class="chip"><span class="dot ${running ? 'green' : 'red'}"></span>${esc(item.status || item.state)}</span>${item.health ? `<div class="mono">health: ${esc(item.health)}</div>` : ''}</td>
-          <td class="mono">${esc(stats.cpu || '—')}</td>
-          <td class="mono">${esc(stats.mem || '—')}<br>${esc(stats.mem_percent || '')}</td>
-          <td class="mono">${esc(item.ports || '—')}</td>
-          <td>
-            <div class="actions-row" style="margin-top:0">
-              <button data-kind="pc" data-id="${esc(item.name)}" data-action="start" ${running ? 'disabled' : ''}>Старт</button>
-              <button data-kind="pc" data-id="${esc(item.name)}" data-action="restart" ${running ? '' : 'disabled'}>Рестарт</button>
-              <button data-kind="pc" data-id="${esc(item.name)}" data-action="stop" class="danger" ${running ? '' : 'disabled'}>Стоп</button>
-              <button data-logs="pc" data-id="${esc(item.name)}" class="ghost">Логи</button>
-            </div>
-          </td>
-        </tr>`;
+        return `<div class="pc-card">
+          <div class="pc-head">
+            <div><div class="name">${esc(item.name)}</div><div class="mono">${esc(item.image)}</div></div>
+            <span class="dot ${running ? 'green' : 'red'}"></span>
+          </div>
+          <div class="pc-meta">
+            <span class="chip"><span class="dot ${running ? 'green' : 'red'}"></span>${esc(item.status || item.state)}</span>
+            <span class="chip">CPU ${esc(stats.cpu || '—')}</span>
+            <span class="chip">RAM ${esc(stats.mem || '—')}</span>
+            ${item.health ? `<span class="chip">health ${esc(item.health)}</span>` : ''}
+          </div>
+          <div class="mono pc-ports">${esc(item.ports || '—')}</div>
+          <div class="actions-row">
+            <button data-kind="pc" data-id="${esc(item.name)}" data-action="start" ${running ? 'disabled' : ''}>Старт</button>
+            <button data-kind="pc" data-id="${esc(item.name)}" data-action="restart" ${running ? '' : 'disabled'}>Рестарт</button>
+            <button data-kind="pc" data-id="${esc(item.name)}" data-action="stop" class="danger" ${running ? '' : 'disabled'}>Стоп</button>
+            <button data-logs="pc" data-id="${esc(item.name)}" class="ghost">Логи</button>
+          </div>
+        </div>`;
       }).join('')}
-      </tbody>
-    </table>`;
+    </div>`;
 }
 function renderLinks(items) {
   $('links').innerHTML = (items || []).map((item) => `
@@ -1066,6 +1073,9 @@ class Handler(BaseHTTPRequestHandler):
         path = urllib.parse.urlparse(self.path).path
         if path == "/healthz":
             self._json({"ok": True, "service": "homelab-panel", "version": 2})
+            return
+        if path == "/favicon.ico":
+            self._send("", 204)
             return
         if path == "/login":
             if self._authorized():
