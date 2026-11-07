@@ -55,6 +55,7 @@ echo "[4/6] Creating runit service…"
 mkdir -p "$SVDIR/panel/log" "${PREFIX}/var/log/sv/panel"
 cat > "$SVDIR/panel/run" <<'EOF'
 #!/data/data/com.termux/files/usr/bin/sh
+export PATH="/data/data/com.termux/files/usr/bin:$PATH"
 set -a
 . /data/data/com.termux/files/home/.panel.env
 set +a
