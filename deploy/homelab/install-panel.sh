@@ -9,9 +9,12 @@ SVDIR="${PREFIX}/var/service"
 if ! command -v python >/dev/null 2>&1; then
   pkg install -y python
 fi
+if ! command -v curl >/dev/null 2>&1; then
+  pkg install -y curl
+fi
 
 echo "[1/6] Installing Python dependencies…"
-python -m pip install --quiet --upgrade fastapi uvicorn
+python -m pip install --quiet --upgrade flask waitress
 
 echo "[2/6] Downloading panel…"
 mkdir -p "$PANEL_DIR"
@@ -69,8 +72,19 @@ if ! pgrep -x runsvdir >/dev/null 2>&1; then
   setsid runsvdir "$SVDIR" > "$HOME/runsvdir.log" 2>&1 < /dev/null &
   sleep 5
 fi
-sv up panel 2>/dev/null || true
+for service in sshd postgres redis cloudflared stack panel; do
+  sv up "$service" 2>/dev/null || true
+done
 sleep 3
+
+mkdir -p "$HOME/.termux/boot"
+cat > "$HOME/.termux/boot/start-all.sh" <<'EOF'
+#!/data/data/com.termux/files/usr/bin/bash
+termux-wake-lock 2>/dev/null || true
+sleep 5
+pgrep -x runsvdir >/dev/null 2>&1 || setsid runsvdir "$PREFIX/var/service" >/dev/null 2>&1 &
+EOF
+chmod +x "$HOME/.termux/boot/start-all.sh"
 
 echo "[6/6] Exposing admin panels to the LAN…"
 if command -v proot-distro >/dev/null 2>&1; then

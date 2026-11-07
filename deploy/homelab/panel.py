@@ -1,4 +1,3 @@
-import base64
 import hmac
 import json
 import os
@@ -9,9 +8,7 @@ import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
-from fastapi import Depends, FastAPI, Header, HTTPException, Request
-from fastapi.responses import HTMLResponse, PlainTextResponse
-from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from flask import Flask, Response, jsonify, request
 
 PANEL_USER = os.environ.get("PANEL_USER", "admin")
 PANEL_PASSWORD = os.environ.get("PANEL_PASSWORD", "")
@@ -20,8 +17,14 @@ PHONE_HOST = os.environ.get("PHONE_HOST", "192.168.1.5")
 PC_HOST = os.environ.get("PC_HOST", "192.168.1.11")
 PC_AGENT_URL = os.environ.get("PC_AGENT_URL", f"http://{PC_HOST}:8091").rstrip("/")
 PC_AGENT_TOKEN = os.environ.get("PC_AGENT_TOKEN", "")
-SVDIR = os.environ.get("SVDIR", str(Path(os.environ.get("PREFIX", "/data/data/com.termux/files/usr")) / "var/service"))
-LOG_BASE = os.environ.get("LOG_BASE", str(Path(os.environ.get("PREFIX", "/data/data/com.termux/files/usr")) / "var/log/sv"))
+SVDIR = os.environ.get(
+    "SVDIR",
+    str(Path(os.environ.get("PREFIX", "/data/data/com.termux/files/usr")) / "var/service"),
+)
+LOG_BASE = os.environ.get(
+    "LOG_BASE",
+    str(Path(os.environ.get("PREFIX", "/data/data/com.termux/files/usr")) / "var/log/sv"),
+)
 
 PHONE_SERVICES = [
     {"id": "sshd", "name": "SSH", "controllable": True},
@@ -32,22 +35,26 @@ PHONE_SERVICES = [
     {"id": "panel", "name": "Панель", "controllable": False},
 ]
 
-app = FastAPI(title="Home Lab Panel")
-security = HTTPBasic()
+app = Flask(__name__)
 
 
-def require_auth(credentials: HTTPBasicCredentials = Depends(security)) -> str:
+@app.before_request
+def basic_auth():
+    if request.path == "/healthz":
+        return None
     if not PANEL_PASSWORD:
-        raise HTTPException(status_code=503, detail="PANEL_PASSWORD is not set")
-    user_ok = hmac.compare_digest(credentials.username, PANEL_USER)
-    pass_ok = hmac.compare_digest(credentials.password, PANEL_PASSWORD)
-    if not (user_ok and pass_ok):
-        raise HTTPException(
-            status_code=401,
-            detail="Unauthorized",
-            headers={"WWW-Authenticate": "Basic"},
+        return Response("PANEL_PASSWORD is not set", status=503)
+    auth = request.authorization
+    if not auth or not (
+        hmac.compare_digest(auth.username or "", PANEL_USER)
+        and hmac.compare_digest(auth.password or "", PANEL_PASSWORD)
+    ):
+        return Response(
+            "Unauthorized",
+            status=401,
+            headers={"WWW-Authenticate": 'Basic realm="Home Lab"'},
         )
-    return credentials.username
+    return None
 
 
 def run(cmd: list[str], timeout: int = 10, env: dict | None = None) -> subprocess.CompletedProcess:
@@ -80,9 +87,9 @@ def phone_action(service_id: str, action: str) -> dict:
     allowed = {"up", "down", "restart"}
     ids = {item["id"] for item in PHONE_SERVICES if item["controllable"]}
     if service_id not in ids:
-        raise HTTPException(status_code=404, detail="unknown service")
+        return {"ok": False, "output": "unknown service", "_status": 404}
     if action not in allowed:
-        raise HTTPException(status_code=400, detail="bad action")
+        return {"ok": False, "output": "bad action", "_status": 400}
     try:
         result = run(["sv", action, service_id], timeout=30, env={"SVDIR": SVDIR})
     except Exception as exc:  # noqa: BLE001
@@ -96,13 +103,13 @@ def phone_action(service_id: str, action: str) -> dict:
 def agent_request(path: str, method: str = "GET") -> tuple[bool, dict | str]:
     if not PC_AGENT_TOKEN:
         return False, "PC_AGENT_TOKEN is not set"
-    request = urllib.request.Request(
+    request_obj = urllib.request.Request(
         f"{PC_AGENT_URL}{path}",
         method=method,
         headers={"X-Agent-Token": PC_AGENT_TOKEN},
     )
     try:
-        with urllib.request.urlopen(request, timeout=8) as response:
+        with urllib.request.urlopen(request_obj, timeout=8) as response:
             body = response.read().decode("utf-8", "replace")
             content_type = response.headers.get("content-type", "")
             if "application/json" in content_type:
@@ -157,65 +164,72 @@ def build_links() -> list[dict]:
 
 
 @app.get("/healthz")
-def healthz() -> dict:
-    return {"ok": True, "service": "homelab-panel"}
+def healthz():
+    return jsonify({"ok": True, "service": "homelab-panel"})
 
 
 @app.get("/api/overview")
-def overview(_: str = Depends(require_auth)) -> dict:
+def overview():
     phone = [phone_status(service) for service in PHONE_SERVICES]
     pc_ok, pc_data = agent_request("/api/status")
     containers = pc_data.get("containers", []) if pc_ok and isinstance(pc_data, dict) else []
-    return {
-        "phone": phone,
-        "pc_ok": pc_ok,
-        "pc_error": "" if pc_ok else str(pc_data),
-        "pc": containers,
-        "links": build_links(),
-    }
+    return jsonify(
+        {
+            "phone": phone,
+            "pc_ok": pc_ok,
+            "pc_error": "" if pc_ok else str(pc_data),
+            "pc": containers,
+            "links": build_links(),
+        }
+    )
 
 
-@app.post("/api/phone/{service_id}/{action}")
-def phone_control(
-    service_id: str, action: str, request: Request, _: str = Depends(require_auth)
-) -> dict:
-    if request.headers.get("x-panel") != "1":
-        raise HTTPException(status_code=403, detail="missing panel header")
-    return phone_action(service_id, action)
+@app.post("/api/phone/<service_id>/<action>")
+def phone_control(service_id: str, action: str):
+    if request.headers.get("X-Panel") != "1":
+        return jsonify({"ok": False, "output": "missing panel header"}), 403
+    result = phone_action(service_id, action)
+    status = result.pop("_status", 200)
+    return jsonify(result), status
 
 
-@app.get("/api/phone/{service_id}/logs", response_class=PlainTextResponse)
-def phone_logs(service_id: str, _: str = Depends(require_auth)) -> str:
-    ids = {item["id"] for item in PHONE_SERVICES}
-    if service_id not in ids:
-        raise HTTPException(status_code=404, detail="unknown service")
+@app.get("/api/phone/<service_id>/logs")
+def phone_logs(service_id: str):
+    if service_id not in {item["id"] for item in PHONE_SERVICES}:
+        return Response("unknown service", status=404, mimetype="text/plain")
     path = Path(LOG_BASE) / service_id / "current"
     if not path.exists():
-        return f"log file not found: {path}"
+        return Response(f"log file not found: {path}", mimetype="text/plain")
     result = run(["tail", "-n", "150", str(path)])
-    return (result.stdout + result.stderr).strip() or "(empty log)"
+    return Response(
+        (result.stdout + result.stderr).strip() or "(empty log)",
+        mimetype="text/plain",
+    )
 
 
-@app.post("/api/pc/{name}/{action}")
-def pc_control(
-    name: str, action: str, request: Request, _: str = Depends(require_auth)
-) -> dict:
-    if request.headers.get("x-panel") != "1":
-        raise HTTPException(status_code=403, detail="missing panel header")
+@app.post("/api/pc/<name>/<action>")
+def pc_control(name: str, action: str):
+    if request.headers.get("X-Panel") != "1":
+        return jsonify({"ok": False, "output": "missing panel header"}), 403
     if action not in {"start", "stop", "restart"}:
-        raise HTTPException(status_code=400, detail="bad action")
+        return jsonify({"ok": False, "output": "bad action"}), 400
     ok, data = agent_request(f"/api/containers/{name}/{action}", method="POST")
     if not ok:
-        raise HTTPException(status_code=502, detail=str(data))
-    return data if isinstance(data, dict) else {"ok": True, "output": str(data)}
+        return jsonify({"ok": False, "output": str(data)}), 502
+    return jsonify(data if isinstance(data, dict) else {"ok": True, "output": str(data)})
 
 
-@app.get("/api/pc/{name}/logs", response_class=PlainTextResponse)
-def pc_logs(name: str, _: str = Depends(require_auth)) -> str:
+@app.get("/api/pc/<name>/logs")
+def pc_logs(name: str):
     ok, data = agent_request(f"/api/containers/{name}/logs")
     if not ok:
-        raise HTTPException(status_code=502, detail=str(data))
-    return str(data)
+        return Response(f"agent error: {data}", status=502, mimetype="text/plain")
+    return Response(str(data), mimetype="text/plain")
+
+
+@app.get("/")
+def index():
+    return Response(INDEX_HTML, mimetype="text/html")
 
 
 INDEX_HTML = r"""<!doctype html>
@@ -235,8 +249,6 @@ INDEX_HTML = r"""<!doctype html>
     --green: #34d399;
     --red: #f87171;
     --amber: #fbbf24;
-    --blue: #60a5fa;
-    --violet: #a78bfa;
   }
   * { box-sizing: border-box; }
   body {
@@ -522,12 +534,7 @@ setInterval(refresh, 10000);
 """
 
 
-@app.get("/", response_class=HTMLResponse)
-def index(_: str = Depends(require_auth)) -> str:
-    return INDEX_HTML
-
-
 if __name__ == "__main__":
-    import uvicorn
+    from waitress import serve
 
-    uvicorn.run(app, host="0.0.0.0", port=PANEL_PORT, log_level="info")
+    serve(app, host="0.0.0.0", port=PANEL_PORT, threads=8)
