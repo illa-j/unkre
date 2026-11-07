@@ -1,0 +1,27 @@
+Stack:
+Backend: FastAPI, Postgresql, Redis, ARQ, aiogram, Alembic, Argon
+Frontend: Next.js, Typescript, Tailwind
+
+Референс для дизайну: ref_design.png
+
+Ідея: Розробити платформу для генерації зображень з Krea 2 (completely uncensored)
+User account (Google, Telegram)
+15 free credits
+Library
+Krea 2 Turbo, Krea 2 Raw
+Different Loras with previews
+Customizable settings
+Ref images
+
+Pages:
+Landing Page
+Studio with all functionality:
+Library
+Image generation page
+Profile
+Credits payments page
+[x] Referral system — код, invite-посилання, бонуси обом акаунтам
+[x] Promocodes — погашення на /studio/credits, адмінське керування
+
+Plan:
+[x] Landing page — темний preview у frontend/, без фонових зображень; авторизація підключається окремо

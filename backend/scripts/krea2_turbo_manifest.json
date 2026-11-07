@@ -1,0 +1,249 @@
+[
+  {
+    "node": "10",
+    "lora_name": "lenovo-ultrareal.safetensors",
+    "title": "Lenovo UltraReal",
+    "civitai_id": "1662740",
+    "category": "realism",
+    "recommended_strength": 0.8,
+    "workflows": [
+      "krea2_turbo_all_api",
+      "krea2_turbo_all_ui"
+    ],
+    "source": "https://civitai.red/models/1662740"
+  },
+  {
+    "node": "11",
+    "lora_name": "nicegirls-ultrareal.safetensors",
+    "title": "NiceGirls UltraReal",
+    "civitai_id": "1862761",
+    "category": "realism",
+    "recommended_strength": 0.8,
+    "workflows": [
+      "krea2_turbo_all_api",
+      "krea2_turbo_all_ui"
+    ],
+    "source": "https://civitai.red/models/1862761"
+  },
+  {
+    "node": "12",
+    "lora_name": "realistic-snapshot.safetensors",
+    "title": "Realistic Snapshot (MOSS-IMAGE + KREA2 + ZIT)",
+    "civitai_id": "2268008",
+    "category": "realism",
+    "recommended_strength": 1.0,
+    "workflows": [
+      "krea2_turbo_all_api",
+      "krea2_turbo_all_ui"
+    ],
+    "source": "https://civitai.red/models/2268008"
+  },
+  {
+    "node": "13",
+    "lora_name": "realism-engine-krea2.safetensors",
+    "title": "Realism Engine Ideogram 4 + Krea 2",
+    "civitai_id": "2688234",
+    "category": "realism",
+    "recommended_strength": 1.0,
+    "workflows": [
+      "krea2_turbo_all_api",
+      "krea2_turbo_all_ui"
+    ],
+    "source": "https://civitai.red/models/2688234"
+  },
+  {
+    "node": "14",
+    "lora_name": "cinematic-shot.safetensors",
+    "title": "Cinematic Shot",
+    "civitai_id": "432586",
+    "category": "realism",
+    "recommended_strength": 0.8,
+    "workflows": [
+      "krea2_turbo_all_api",
+      "krea2_turbo_all_ui"
+    ],
+    "source": "https://civitai.red/models/432586"
+  },
+  {
+    "node": "15",
+    "lora_name": "famegrid.safetensors",
+    "title": "Famegrid - Realism LoRA",
+    "civitai_id": "2088956",
+    "category": "realism",
+    "recommended_strength": 0.9,
+    "workflows": [
+      "krea2_turbo_all_api",
+      "krea2_turbo_all_ui"
+    ],
+    "source": "https://civitai.red/models/2088956"
+  },
+  {
+    "node": "16",
+    "lora_name": "ultrareal-moss-krea2-klein9b.safetensors",
+    "title": "UltraReal - Moss, Krea2, Klein9b",
+    "civitai_id": "2462105",
+    "category": "realism",
+    "recommended_strength": 0.9,
+    "workflows": [
+      "krea2_turbo_all_api",
+      "krea2_turbo_all_ui"
+    ],
+    "source": "https://civitai.red/models/2462105"
+  },
+  {
+    "node": "17",
+    "lora_name": "bloomgirls-ultrarealism.safetensors",
+    "title": "[Krea 2] BloomGirls UltraRealism",
+    "civitai_id": "2735553",
+    "category": "realism",
+    "recommended_strength": 1.0,
+    "workflows": [
+      "krea2_turbo_all_api",
+      "krea2_turbo_all_ui"
+    ],
+    "source": "https://civitai.red/models/2735553"
+  },
+  {
+    "node": "18",
+    "lora_name": "realistic-skin-and-face.safetensors",
+    "title": "Realistic Skin & Face - Professional_photography",
+    "civitai_id": "1426727",
+    "category": "realism",
+    "recommended_strength": 0.8,
+    "workflows": [
+      "krea2_turbo_all_api",
+      "krea2_turbo_all_ui"
+    ],
+    "source": "https://civitai.red/models/1426727"
+  },
+  {
+    "node": "19",
+    "lora_name": "adjust-details-photorealism.safetensors",
+    "title": "Adjust details AND photorealism",
+    "civitai_id": "890914",
+    "category": "realism",
+    "recommended_strength": 0.8,
+    "workflows": [
+      "krea2_turbo_all_api",
+      "krea2_turbo_all_ui"
+    ],
+    "source": "https://civitai.red/models/890914"
+  },
+  {
+    "node": "20",
+    "lora_name": "grainscape-ultrareal.safetensors",
+    "title": "GrainScape UltraReal",
+    "civitai_id": "1332651",
+    "category": "realism",
+    "recommended_strength": 0.8,
+    "workflows": [
+      "krea2_turbo_all_api",
+      "krea2_turbo_all_ui"
+    ],
+    "source": "https://civitai.red/models/1332651"
+  },
+  {
+    "node": "21",
+    "lora_name": "realism-enhancer-krea2.safetensors",
+    "title": "Realism Enhancer Krea2",
+    "civitai_id": "2727284",
+    "category": "realism",
+    "recommended_strength": 0.7,
+    "workflows": [
+      "krea2_turbo_all_api",
+      "krea2_turbo_all_ui"
+    ],
+    "source": "https://civitai.red/models/2727284"
+  },
+  {
+    "node": "22",
+    "lora_name": "krea2-nsfw-v5.safetensors",
+    "title": "Krea 2 NSFW V5",
+    "civitai_id": "2725430",
+    "category": "nsfw",
+    "recommended_strength": 0.9,
+    "workflows": [
+      "krea2_turbo_all_api",
+      "krea2_turbo_all_ui"
+    ],
+    "source": "https://civitai.red/models/2725430"
+  },
+  {
+    "node": "23",
+    "lora_name": "getphat-reality-nsfw.safetensors",
+    "title": "getphat Reality NSFW",
+    "civitai_id": "861840",
+    "category": "nsfw",
+    "recommended_strength": 0.9,
+    "workflows": [
+      "krea2_turbo_all_api",
+      "krea2_turbo_all_ui"
+    ],
+    "source": "https://civitai.red/models/861840"
+  },
+  {
+    "node": "24",
+    "lora_name": "photoreal-betternudes.safetensors",
+    "title": "PhotoReal BetterNudes / NSFW",
+    "civitai_id": "2174081",
+    "category": "nsfw",
+    "recommended_strength": 0.8,
+    "workflows": [
+      "krea2_turbo_all_api",
+      "krea2_turbo_all_ui"
+    ],
+    "source": "https://civitai.red/models/2174081"
+  },
+  {
+    "node": "25",
+    "lora_name": "mystic-xxx.safetensors",
+    "title": "[KREA 2] Mystic XXX",
+    "civitai_id": "2728644",
+    "category": "nsfw",
+    "recommended_strength": 0.9,
+    "workflows": [
+      "krea2_turbo_all_api",
+      "krea2_turbo_all_ui"
+    ],
+    "source": "https://civitai.red/models/2728644"
+  },
+  {
+    "node": "26",
+    "lora_name": "nsfw-krea2-flux.safetensors",
+    "title": "NSFW LoRA | Krea2, FLUX",
+    "civitai_id": "655753",
+    "category": "nsfw",
+    "recommended_strength": 0.8,
+    "workflows": [
+      "krea2_turbo_all_api",
+      "krea2_turbo_all_ui"
+    ],
+    "source": "https://civitai.red/models/655753"
+  },
+  {
+    "node": "27",
+    "lora_name": "nsfw-unlocked.safetensors",
+    "title": "NSFW UNLOCKED [LORA] FLUX / FLUX2 KLEIN / Z_IMAGE / KREA2",
+    "civitai_id": "2063193",
+    "category": "nsfw",
+    "recommended_strength": 0.7,
+    "workflows": [
+      "krea2_turbo_all_api",
+      "krea2_turbo_all_ui"
+    ],
+    "source": "https://civitai.red/models/2063193"
+  },
+  {
+    "node": "28",
+    "lora_name": "krea2-aio-nsfw.safetensors",
+    "title": "Krea2 AIO NSFW LoRA",
+    "civitai_id": "2732306",
+    "category": "nsfw",
+    "recommended_strength": 0.8,
+    "workflows": [
+      "krea2_turbo_all_api",
+      "krea2_turbo_all_ui"
+    ],
+    "source": "https://civitai.red/models/2732306"
+  }
+]

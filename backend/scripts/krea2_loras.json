@@ -1,0 +1,22 @@
+[
+  { "slug": "lenovo-ultrareal", "title": "Lenovo UltraReal", "id": 1662740, "category": "realism", "strength": 0.8 },
+  { "slug": "nicegirls-ultrareal", "title": "NiceGirls UltraReal", "id": 1862761, "category": "realism", "strength": 0.8 },
+  { "slug": "realistic-snapshot", "title": "Realistic Snapshot (MOSS-IMAGE + KREA2 + ZIT)", "id": 2268008, "category": "realism", "strength": 1.0 },
+  { "slug": "realism-engine-krea2", "title": "Realism Engine Ideogram 4 + Krea 2", "id": 2688234, "category": "realism", "strength": 1.0 },
+  { "slug": "cinematic-shot", "title": "Cinematic Shot", "id": 432586, "category": "realism", "strength": 0.8 },
+  { "slug": "famegrid", "title": "Famegrid - Realism LoRA", "id": 2088956, "category": "realism", "strength": 0.9 },
+  { "slug": "ultrareal-moss-krea2-klein9b", "title": "UltraReal - Moss, Krea2, Klein9b", "id": 2462105, "category": "realism", "strength": 0.9 },
+  { "slug": "bloomgirls-ultrarealism", "title": "[Krea 2] BloomGirls UltraRealism", "id": 2735553, "category": "realism", "strength": 1.0 },
+  { "slug": "realistic-skin-and-face", "title": "Realistic Skin & Face - Professional_photography", "id": 1426727, "category": "realism", "strength": 0.8 },
+  { "slug": "adjust-details-photorealism", "title": "Adjust details AND photorealism", "id": 890914, "category": "realism", "strength": 0.8 },
+  { "slug": "grainscape-ultrareal", "title": "GrainScape UltraReal", "id": 1332651, "category": "realism", "strength": 0.8 },
+  { "slug": "realism-enhancer-krea2", "title": "Realism Enhancer Krea2", "id": 2727284, "category": "realism", "strength": 0.7 },
+
+  { "slug": "krea2-nsfw-v5", "title": "Krea 2 NSFW V5", "id": 2725430, "category": "nsfw", "strength": 0.9 },
+  { "slug": "getphat-reality-nsfw", "title": "getphat Reality NSFW", "id": 861840, "category": "nsfw", "strength": 0.9 },
+  { "slug": "photoreal-betternudes", "title": "PhotoReal BetterNudes / NSFW", "id": 2174081, "category": "nsfw", "strength": 0.8 },
+  { "slug": "mystic-xxx", "title": "[KREA 2] Mystic XXX", "id": 2728644, "category": "nsfw", "strength": 0.9 },
+  { "slug": "nsfw-krea2-flux", "title": "NSFW LoRA | Krea2, FLUX", "id": 655753, "category": "nsfw", "strength": 0.8 },
+  { "slug": "nsfw-unlocked", "title": "NSFW UNLOCKED [LORA] FLUX / FLUX2 KLEIN / Z_IMAGE / KREA2", "id": 2063193, "category": "nsfw", "strength": 0.7 },
+  { "slug": "krea2-aio-nsfw", "title": "Krea2 AIO NSFW LoRA", "id": 2732306, "category": "nsfw", "strength": 0.8 }
+]

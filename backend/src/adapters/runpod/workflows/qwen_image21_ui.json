@@ -1,0 +1,2240 @@
+{
+  "id": "2b3adcac-6de0-40f7-810a-f23538250a71",
+  "revision": 1,
+  "last_node_id": 113,
+  "last_link_id": 196,
+  "nodes": [
+    {
+      "id": 52,
+      "type": "UNETLoader",
+      "pos": [
+        0,
+        0
+      ],
+      "size": [
+        370,
+        130
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            171
+          ]
+        }
+      ],
+      "title": "Qwen Image 2.1 Turbo",
+      "properties": {
+        "Node name for S&R": "UNETLoader",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "unet_name": true,
+            "weight_dtype": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "qwen_image_2.1_turbo_bf16.safetensors",
+        "default"
+      ],
+      "widgets_values_named": {
+        "unet_name": "qwen_image_2.1_turbo_bf16.safetensors",
+        "weight_dtype": "default"
+      }
+    },
+    {
+      "id": 51,
+      "type": "CLIPLoader",
+      "pos": [
+        0,
+        190
+      ],
+      "size": [
+        375.4556640625,
+        130
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            162
+          ]
+        }
+      ],
+      "title": "Qwen Image 2.1 — правильний text / vision encoder",
+      "properties": {
+        "Node name for S&R": "CLIPLoader",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "clip_name": true,
+            "type": true,
+            "device": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "qwen3vl_8b_bf16.safetensors",
+        "qwen_image",
+        "default"
+      ],
+      "widgets_values_named": {
+        "clip_name": "qwen3vl_8b_bf16.safetensors",
+        "type": "qwen_image",
+        "device": "default"
+      }
+    },
+    {
+      "id": 59,
+      "type": "VAELoader",
+      "pos": [
+        0,
+        390
+      ],
+      "size": [
+        370,
+        90
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            164,
+            169
+          ]
+        }
+      ],
+      "title": "Qwen Image 2.1 VAE — 64 канали",
+      "properties": {
+        "Node name for S&R": "VAELoader",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "vae_name": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "qwen_image_2.1_vae_bf16.safetensors"
+      ],
+      "widgets_values_named": {
+        "vae_name": "qwen_image_2.1_vae_bf16.safetensors"
+      }
+    },
+    {
+      "id": 83,
+      "type": "LoadImage",
+      "pos": [
+        -538.4042599378739,
+        -117.13068175908313
+      ],
+      "size": [
+        423.81383346371103,
+        703.3185433838089
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            163
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "title": "РЕФЕРЕНС — завантажте фото потрібної людини",
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "image": true,
+            "upload": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "input.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "reference.png",
+        "upload": "image"
+      }
+    },
+    {
+      "id": 81,
+      "type": "TextEncodeQwenImage21",
+      "pos": [
+        420,
+        0
+      ],
+      "size": [
+        470,
+        960
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 162
+        },
+        {
+          "label": "image_1",
+          "name": "images.image_1",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 163
+        },
+        {
+          "name": "images.image_2",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 173
+        },
+        {
+          "name": "images.image_3",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 174
+        },
+        {
+          "name": "images.image_4",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 175
+        },
+        {
+          "name": "images.image_5",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 176
+        },
+        {
+          "name": "images.image_6",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 177
+        },
+        {
+          "name": "images.image_7",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 178
+        },
+        {
+          "name": "images.image_8",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 179
+        },
+        {
+          "name": "images.image_9",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 180
+        },
+        {
+          "name": "images.image_10",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 181
+        },
+        {
+          "name": "images.image_11",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 182
+        },
+        {
+          "name": "images.image_12",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 183
+        },
+        {
+          "name": "images.image_13",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 184
+        },
+        {
+          "name": "images.image_14",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 185
+        },
+        {
+          "name": "images.image_15",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 186
+        },
+        {
+          "name": "images.image_16",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 187
+        },
+        {
+          "name": "vae",
+          "shape": 7,
+          "type": "VAE",
+          "link": 164
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            165
+          ]
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "links": [
+            166
+          ]
+        },
+        {
+          "name": "latent",
+          "type": "LATENT",
+          "links": [
+            167
+          ]
+        }
+      ],
+      "title": "ПРОМПТ + РЕФЕРЕНС — новий кадр тієї самої людини",
+      "properties": {
+        "Node name for S&R": "TextEncodeQwenImage21",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "prompt": true,
+            "negative_prompt": true,
+            "resolution": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "",
+        "",
+        1024
+      ],
+      "widgets_values_named": {
+        "prompt": "",
+        "negative_prompt": "",
+        "resolution": 1024
+      }
+    },
+    {
+      "id": 84,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        925.0925026986499,
+        363.10402754150095
+      ],
+      "size": [
+        345.9695780383285,
+        90.00005614686746
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 172
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            160
+          ]
+        }
+      ],
+      "title": "ОПЦІЙНО: Qwen 2.1 NSFW LoRA — Bypass",
+      "properties": {
+        "Node name for S&R": "LoraLoaderModelOnly",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "lora_name": true,
+            "strength_model": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "Pornmaster_QI2.1_Breasts_Slider_V1.safetensors",
+        0
+      ],
+      "widgets_values_named": {
+        "lora_name": "Pornmaster_QI2.1_Breasts_Slider_V1.safetensors",
+        "strength_model": 0
+      }
+    },
+    {
+      "id": 85,
+      "type": "QwenImage21Cache",
+      "pos": [
+        940,
+        150
+      ],
+      "size": [
+        310,
+        150
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 160
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            161
+          ]
+        }
+      ],
+      "title": "KV cache — auto / без квантизації",
+      "properties": {
+        "Node name for S&R": "QwenImage21Cache",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "device": true,
+            "dtype": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "auto",
+        "default"
+      ],
+      "widgets_values_named": {
+        "device": "auto",
+        "dtype": "default"
+      }
+    },
+    {
+      "id": 55,
+      "type": "KSampler",
+      "pos": [
+        1290,
+        0
+      ],
+      "size": [
+        330,
+        300
+      ],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 161
+        },
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "link": 165
+        },
+        {
+          "name": "negative",
+          "type": "CONDITIONING",
+          "link": 166
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 167
+        }
+      ],
+      "outputs": [
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            168
+          ]
+        }
+      ],
+      "title": "Qwen 2.1 Turbo — 8 кроків / CFG 1",
+      "properties": {
+        "Node name for S&R": "KSampler",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "seed": true,
+            "steps": true,
+            "cfg": true,
+            "sampler_name": true,
+            "scheduler": true,
+            "denoise": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        941320828497633,
+        "randomize",
+        8,
+        1,
+        "euler",
+        "simple",
+        1
+      ],
+      "widgets_values_named": {
+        "seed": 941320828497633,
+        "control_after_generate": "randomize",
+        "steps": 8,
+        "cfg": 1,
+        "sampler_name": "euler",
+        "scheduler": "simple",
+        "denoise": 1
+      }
+    },
+    {
+      "id": 60,
+      "type": "VAEDecode",
+      "pos": [
+        1290,
+        380
+      ],
+      "size": [
+        330,
+        100
+      ],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 168
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 169
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            170
+          ]
+        }
+      ],
+      "title": "Декодування нового кадру",
+      "properties": {
+        "Node name for S&R": "VAEDecode",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      }
+    },
+    {
+      "id": 63,
+      "type": "SaveImage",
+      "pos": [
+        1680,
+        0
+      ],
+      "size": [
+        430,
+        650
+      ],
+      "flags": {},
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 170
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": []
+        }
+      ],
+      "title": "РЕЗУЛЬТАТ — Qwen Image 2.1",
+      "properties": {
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "filename_prefix": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "qwen_image21/reference"
+      ],
+      "widgets_values_named": {
+        "filename_prefix": "qwen_image21/reference"
+      }
+    },
+    {
+      "id": 87,
+      "type": "Note",
+      "pos": [
+        420,
+        1060
+      ],
+      "size": [
+        830,
+        420
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "Як користуватися Qwen Image 2.1",
+      "properties": {
+        "Node name for S&R": "Note",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "Ref2image: up to 16 reference slots are pre-wired (image_1 … image_16, the node's maximum). Upload a photo in a LoadImage node and unmute it (Ctrl+M) to include it; slots that are not uploaded stay muted, so the graph runs with a single reference.\n\nThe first unmuted reference defines the output aspect ratio; resolution controls approximate area. Reference order follows the slot number, not upload order.\n\nT2image: remove the LoadImage nodes and their connections to images.image_1 … image_16. With no references, TextEncodeQwenImage21 returns a square 64-channel latent at resolution x resolution (0 falls back to 1024). Keep its latent output connected to KSampler.\n\nTurbo defaults: 8 steps, CFG 1, euler/simple, denoise 1. Negative prompt is inactive at CFG 1. Both LoRA strengths start at 0; the source file used strengths 1 and 3.\n\nThis graph uses the pinned official Comfy-Org Turbo, Qwen3-VL 8B encoder, and Qwen Image 2.1 VAE from this project. Requires ComfyUI 0.40.0.\n\nLoRA chain: 52 → 88 → 84 → 105…108 (realism, always in the image) → 109…113 (need a Civitai token at build, so they ship bypassed) → 85 KV cache. Un-bypass (Ctrl+B) a node and raise strength_model to use it; 0.7–1.0 suits Turbo at CFG 1."
+      ],
+      "widgets_values_named": {
+        "text": "Ref2image: up to 16 reference slots are pre-wired (image_1 … image_16, the node's maximum). Upload a photo in a LoadImage node and unmute it (Ctrl+M) to include it; slots that are not uploaded stay muted, so the graph runs with a single reference.\n\nThe first unmuted reference defines the output aspect ratio; resolution controls approximate area. Reference order follows the slot number, not upload order.\n\nT2image: remove the LoadImage nodes and their connections to images.image_1 … image_16. With no references, TextEncodeQwenImage21 returns a square 64-channel latent at resolution x resolution (0 falls back to 1024). Keep its latent output connected to KSampler.\n\nTurbo defaults: 8 steps, CFG 1, euler/simple, denoise 1. Negative prompt is inactive at CFG 1. Both LoRA strengths start at 0; the source file used strengths 1 and 3.\n\nThis graph uses the pinned official Comfy-Org Turbo, Qwen3-VL 8B encoder, and Qwen Image 2.1 VAE from this project. Requires ComfyUI 0.40.0.\n\nLoRA chain: 52 → 88 → 84 → 105…108 (realism, always in the image) → 109…113 (need a Civitai token at build, so they ship bypassed) → 85 KV cache. Un-bypass (Ctrl+B) a node and raise strength_model to use it; 0.7–1.0 suits Turbo at CFG 1."
+      },
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 88,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        920.7965530500269,
+        498.54242723984504
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 171
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            172
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoraLoaderModelOnly",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.8"
+        }
+      },
+      "widgets_values": [
+        "qwen2_1-femaledVaginus-nsfw-v1_3-fine_L22-31.safetensors",
+        0
+      ],
+      "widgets_values_named": {
+        "lora_name": "qwen2_1-femaledVaginus-nsfw-v1_3-fine_L22-31.safetensors",
+        "strength_model": 0
+      }
+    },
+    {
+      "id": 90,
+      "type": "LoadImage",
+      "pos": [
+        -1098.404259937874,
+        -117.13068175908313
+      ],
+      "size": [
+        423.81383346371103,
+        703.3185433838089
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            173
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "title": "РЕФЕРЕНС 2 — завантажте фото потрібної людини",
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "image": true,
+            "upload": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "reference_2.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "reference_2.png",
+        "upload": "image"
+      }
+    },
+    {
+      "id": 91,
+      "type": "LoadImage",
+      "pos": [
+        -1658.404259937874,
+        -117.13068175908313
+      ],
+      "size": [
+        423.81383346371103,
+        703.3185433838089
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            174
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "title": "РЕФЕРЕНС 3 — завантажте фото потрібної людини",
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "image": true,
+            "upload": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "reference_3.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "reference_3.png",
+        "upload": "image"
+      }
+    },
+    {
+      "id": 92,
+      "type": "LoadImage",
+      "pos": [
+        -2218.404259937874,
+        -117.13068175908313
+      ],
+      "size": [
+        423.81383346371103,
+        703.3185433838089
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            175
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "title": "РЕФЕРЕНС 4 — завантажте фото потрібної людини",
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "image": true,
+            "upload": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "reference_4.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "reference_4.png",
+        "upload": "image"
+      }
+    },
+    {
+      "id": 93,
+      "type": "LoadImage",
+      "pos": [
+        -538.4042599378739,
+        662.8693182409169
+      ],
+      "size": [
+        423.81383346371103,
+        703.3185433838089
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            176
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "title": "РЕФЕРЕНС 5 — завантажте фото потрібної людини",
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "image": true,
+            "upload": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "reference_5.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "reference_5.png",
+        "upload": "image"
+      }
+    },
+    {
+      "id": 94,
+      "type": "LoadImage",
+      "pos": [
+        -1098.404259937874,
+        662.8693182409169
+      ],
+      "size": [
+        423.81383346371103,
+        703.3185433838089
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            177
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "title": "РЕФЕРЕНС 6 — завантажте фото потрібної людини",
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "image": true,
+            "upload": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "reference_6.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "reference_6.png",
+        "upload": "image"
+      }
+    },
+    {
+      "id": 95,
+      "type": "LoadImage",
+      "pos": [
+        -1658.404259937874,
+        662.8693182409169
+      ],
+      "size": [
+        423.81383346371103,
+        703.3185433838089
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            178
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "title": "РЕФЕРЕНС 7 — завантажте фото потрібної людини",
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "image": true,
+            "upload": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "reference_7.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "reference_7.png",
+        "upload": "image"
+      }
+    },
+    {
+      "id": 96,
+      "type": "LoadImage",
+      "pos": [
+        -2218.404259937874,
+        662.8693182409169
+      ],
+      "size": [
+        423.81383346371103,
+        703.3185433838089
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            179
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "title": "РЕФЕРЕНС 8 — завантажте фото потрібної людини",
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "image": true,
+            "upload": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "reference_8.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "reference_8.png",
+        "upload": "image"
+      }
+    },
+    {
+      "id": 97,
+      "type": "LoadImage",
+      "pos": [
+        -538.4042599378739,
+        1442.869318240917
+      ],
+      "size": [
+        423.81383346371103,
+        703.3185433838089
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            180
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "title": "РЕФЕРЕНС 9 — завантажте фото потрібної людини",
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "image": true,
+            "upload": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "reference_9.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "reference_9.png",
+        "upload": "image"
+      }
+    },
+    {
+      "id": 98,
+      "type": "LoadImage",
+      "pos": [
+        -1098.404259937874,
+        1442.869318240917
+      ],
+      "size": [
+        423.81383346371103,
+        703.3185433838089
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            181
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "title": "РЕФЕРЕНС 10 — завантажте фото потрібної людини",
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "image": true,
+            "upload": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "reference_10.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "reference_10.png",
+        "upload": "image"
+      }
+    },
+    {
+      "id": 99,
+      "type": "LoadImage",
+      "pos": [
+        -1658.404259937874,
+        1442.869318240917
+      ],
+      "size": [
+        423.81383346371103,
+        703.3185433838089
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            182
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "title": "РЕФЕРЕНС 11 — завантажте фото потрібної людини",
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "image": true,
+            "upload": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "reference_11.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "reference_11.png",
+        "upload": "image"
+      }
+    },
+    {
+      "id": 100,
+      "type": "LoadImage",
+      "pos": [
+        -2218.404259937874,
+        1442.869318240917
+      ],
+      "size": [
+        423.81383346371103,
+        703.3185433838089
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            183
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "title": "РЕФЕРЕНС 12 — завантажте фото потрібної людини",
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "image": true,
+            "upload": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "reference_12.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "reference_12.png",
+        "upload": "image"
+      }
+    },
+    {
+      "id": 101,
+      "type": "LoadImage",
+      "pos": [
+        -538.4042599378739,
+        2222.869318240917
+      ],
+      "size": [
+        423.81383346371103,
+        703.3185433838089
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            184
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "title": "РЕФЕРЕНС 13 — завантажте фото потрібної людини",
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "image": true,
+            "upload": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "reference_13.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "reference_13.png",
+        "upload": "image"
+      }
+    },
+    {
+      "id": 102,
+      "type": "LoadImage",
+      "pos": [
+        -1098.404259937874,
+        2222.869318240917
+      ],
+      "size": [
+        423.81383346371103,
+        703.3185433838089
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            185
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "title": "РЕФЕРЕНС 14 — завантажте фото потрібної людини",
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "image": true,
+            "upload": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "reference_14.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "reference_14.png",
+        "upload": "image"
+      }
+    },
+    {
+      "id": 103,
+      "type": "LoadImage",
+      "pos": [
+        -1658.404259937874,
+        2222.869318240917
+      ],
+      "size": [
+        423.81383346371103,
+        703.3185433838089
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            186
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "title": "РЕФЕРЕНС 15 — завантажте фото потрібної людини",
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "image": true,
+            "upload": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "reference_15.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "reference_15.png",
+        "upload": "image"
+      }
+    },
+    {
+      "id": 104,
+      "type": "LoadImage",
+      "pos": [
+        -2218.404259937874,
+        2222.869318240917
+      ],
+      "size": [
+        423.81383346371103,
+        703.3185433838089
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 2,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            187
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": []
+        }
+      ],
+      "title": "РЕФЕРЕНС 16 — завантажте фото потрібної людини",
+      "properties": {
+        "Node name for S&R": "LoadImage",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "image": true,
+            "upload": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "reference_16.png",
+        "image"
+      ],
+      "widgets_values_named": {
+        "image": "reference_16.png",
+        "upload": "image"
+      }
+    },
+    {
+      "id": 105,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        1300,
+        560
+      ],
+      "size": [
+        330,
+        82
+      ],
+      "flags": {},
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 160
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            188
+          ]
+        }
+      ],
+      "title": "LoRA: Lenovo UltraReal — реалізм",
+      "properties": {
+        "Node name for S&R": "LoraLoaderModelOnly",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "lora_name": true,
+            "strength_model": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "lenovo_qwen21.safetensors",
+        0
+      ],
+      "widgets_values_named": {
+        "lora_name": "lenovo_qwen21.safetensors",
+        "strength_model": 0
+      }
+    },
+    {
+      "id": 106,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        1300,
+        670
+      ],
+      "size": [
+        330,
+        82
+      ],
+      "flags": {},
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 188
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            189
+          ]
+        }
+      ],
+      "title": "LoRA: NiceGirls UltraReal — портрети",
+      "properties": {
+        "Node name for S&R": "LoraLoaderModelOnly",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "lora_name": true,
+            "strength_model": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "nicegirls_v2_qwen21.safetensors",
+        0
+      ],
+      "widgets_values_named": {
+        "lora_name": "nicegirls_v2_qwen21.safetensors",
+        "strength_model": 0
+      }
+    },
+    {
+      "id": 107,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        1300,
+        780
+      ],
+      "size": [
+        330,
+        82
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 189
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            190
+          ]
+        }
+      ],
+      "title": "LoRA: SamsungCam UltraReal — фото з телефона",
+      "properties": {
+        "Node name for S&R": "LoraLoaderModelOnly",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "lora_name": true,
+            "strength_model": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "samsung_qwen21.safetensors",
+        0
+      ],
+      "widgets_values_named": {
+        "lora_name": "samsung_qwen21.safetensors",
+        "strength_model": 0
+      }
+    },
+    {
+      "id": 108,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        1300,
+        890
+      ],
+      "size": [
+        330,
+        82
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 190
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            191
+          ]
+        }
+      ],
+      "title": "LoRA: Full Body — анатомія",
+      "properties": {
+        "Node name for S&R": "LoraLoaderModelOnly",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "lora_name": true,
+            "strength_model": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "qwen21_fullbody_pass2_3270469.safetensors",
+        0
+      ],
+      "widgets_values_named": {
+        "lora_name": "qwen21_fullbody_pass2_3270469.safetensors",
+        "strength_model": 0
+      }
+    },
+    {
+      "id": 109,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        1300,
+        1000
+      ],
+      "size": [
+        330,
+        82
+      ],
+      "flags": {},
+      "order": 16,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 191
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            192
+          ]
+        }
+      ],
+      "title": "LoRA: Casual Snapshot Realism (потрібен CIVITAI_TOKEN)",
+      "properties": {
+        "Node name for S&R": "LoraLoaderModelOnly",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "lora_name": true,
+            "strength_model": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "casual_snapshot_realism_qwen21.safetensors",
+        0
+      ],
+      "widgets_values_named": {
+        "lora_name": "casual_snapshot_realism_qwen21.safetensors",
+        "strength_model": 0
+      }
+    },
+    {
+      "id": 110,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        1300,
+        1110
+      ],
+      "size": [
+        330,
+        82
+      ],
+      "flags": {},
+      "order": 17,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 192
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            193
+          ]
+        }
+      ],
+      "title": "LoRA: PureLens Realism (потрібен CIVITAI_TOKEN)",
+      "properties": {
+        "Node name for S&R": "LoraLoaderModelOnly",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "lora_name": true,
+            "strength_model": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "purelens_qwen21.safetensors",
+        0
+      ],
+      "widgets_values_named": {
+        "lora_name": "purelens_qwen21.safetensors",
+        "strength_model": 0
+      }
+    },
+    {
+      "id": 111,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        1300,
+        1220
+      ],
+      "size": [
+        330,
+        82
+      ],
+      "flags": {},
+      "order": 18,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 193
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            194
+          ]
+        }
+      ],
+      "title": "LoRA: NSFW unlock TheseAlpacas v2 (потрібен CIVITAI_TOKEN)",
+      "properties": {
+        "Node name for S&R": "LoraLoaderModelOnly",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "lora_name": true,
+            "strength_model": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "NSFW Qwen by TheseAlpacas V2.safetensors",
+        0
+      ],
+      "widgets_values_named": {
+        "lora_name": "NSFW Qwen by TheseAlpacas V2.safetensors",
+        "strength_model": 0
+      }
+    },
+    {
+      "id": 112,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        1300,
+        1330
+      ],
+      "size": [
+        330,
+        82
+      ],
+      "flags": {},
+      "order": 19,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 194
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            195
+          ]
+        }
+      ],
+      "title": "LoRA: NSFW Unlocked V1 (потрібен CIVITAI_TOKEN)",
+      "properties": {
+        "Node name for S&R": "LoraLoaderModelOnly",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "lora_name": true,
+            "strength_model": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "Qwen_2.1_Unlocked_V1.safetensors",
+        0
+      ],
+      "widgets_values_named": {
+        "lora_name": "Qwen_2.1_Unlocked_V1.safetensors",
+        "strength_model": 0
+      }
+    },
+    {
+      "id": 113,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        1300,
+        1440
+      ],
+      "size": [
+        330,
+        82
+      ],
+      "flags": {},
+      "order": 20,
+      "mode": 4,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 195
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            196
+          ]
+        }
+      ],
+      "title": "LoRA: nsfw-posture-v3 (потрібен CIVITAI_TOKEN)",
+      "properties": {
+        "Node name for S&R": "LoraLoaderModelOnly",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "lora_name": true,
+            "strength_model": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        "nsfw-posture-v3.safetensors",
+        0
+      ],
+      "widgets_values_named": {
+        "lora_name": "nsfw-posture-v3.safetensors",
+        "strength_model": 0
+      }
+    }
+  ],
+  "links": [
+    [
+      160,
+      84,
+      0,
+      105,
+      0,
+      "MODEL"
+    ],
+    [
+      161,
+      85,
+      0,
+      55,
+      0,
+      "MODEL"
+    ],
+    [
+      165,
+      81,
+      0,
+      55,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      166,
+      81,
+      1,
+      55,
+      2,
+      "CONDITIONING"
+    ],
+    [
+      167,
+      81,
+      2,
+      55,
+      3,
+      "LATENT"
+    ],
+    [
+      168,
+      55,
+      0,
+      60,
+      0,
+      "LATENT"
+    ],
+    [
+      169,
+      59,
+      0,
+      60,
+      1,
+      "VAE"
+    ],
+    [
+      170,
+      60,
+      0,
+      63,
+      0,
+      "IMAGE"
+    ],
+    [
+      171,
+      52,
+      0,
+      88,
+      0,
+      "MODEL"
+    ],
+    [
+      172,
+      88,
+      0,
+      84,
+      0,
+      "MODEL"
+    ],
+    [
+      162,
+      51,
+      0,
+      81,
+      0,
+      "CLIP"
+    ],
+    [
+      163,
+      83,
+      0,
+      81,
+      1,
+      "IMAGE"
+    ],
+    [
+      164,
+      59,
+      0,
+      81,
+      17,
+      "VAE"
+    ],
+    [
+      173,
+      90,
+      0,
+      81,
+      2,
+      "IMAGE"
+    ],
+    [
+      174,
+      91,
+      0,
+      81,
+      3,
+      "IMAGE"
+    ],
+    [
+      175,
+      92,
+      0,
+      81,
+      4,
+      "IMAGE"
+    ],
+    [
+      176,
+      93,
+      0,
+      81,
+      5,
+      "IMAGE"
+    ],
+    [
+      177,
+      94,
+      0,
+      81,
+      6,
+      "IMAGE"
+    ],
+    [
+      178,
+      95,
+      0,
+      81,
+      7,
+      "IMAGE"
+    ],
+    [
+      179,
+      96,
+      0,
+      81,
+      8,
+      "IMAGE"
+    ],
+    [
+      180,
+      97,
+      0,
+      81,
+      9,
+      "IMAGE"
+    ],
+    [
+      181,
+      98,
+      0,
+      81,
+      10,
+      "IMAGE"
+    ],
+    [
+      182,
+      99,
+      0,
+      81,
+      11,
+      "IMAGE"
+    ],
+    [
+      183,
+      100,
+      0,
+      81,
+      12,
+      "IMAGE"
+    ],
+    [
+      184,
+      101,
+      0,
+      81,
+      13,
+      "IMAGE"
+    ],
+    [
+      185,
+      102,
+      0,
+      81,
+      14,
+      "IMAGE"
+    ],
+    [
+      186,
+      103,
+      0,
+      81,
+      15,
+      "IMAGE"
+    ],
+    [
+      187,
+      104,
+      0,
+      81,
+      16,
+      "IMAGE"
+    ],
+    [
+      188,
+      105,
+      0,
+      106,
+      0,
+      "MODEL"
+    ],
+    [
+      189,
+      106,
+      0,
+      107,
+      0,
+      "MODEL"
+    ],
+    [
+      190,
+      107,
+      0,
+      108,
+      0,
+      "MODEL"
+    ],
+    [
+      191,
+      108,
+      0,
+      109,
+      0,
+      "MODEL"
+    ],
+    [
+      192,
+      109,
+      0,
+      110,
+      0,
+      "MODEL"
+    ],
+    [
+      193,
+      110,
+      0,
+      111,
+      0,
+      "MODEL"
+    ],
+    [
+      194,
+      111,
+      0,
+      112,
+      0,
+      "MODEL"
+    ],
+    [
+      195,
+      112,
+      0,
+      113,
+      0,
+      "MODEL"
+    ],
+    [
+      196,
+      113,
+      0,
+      85,
+      0,
+      "MODEL"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.8390545288824046,
+      "offset": [
+        568.6137567357852,
+        710.9657709659028
+      ]
+    },
+    "ue_links": [],
+    "links_added_by_ue": [],
+    "frontendVersion": "1.57.4"
+  },
+  "version": 0.4
+}

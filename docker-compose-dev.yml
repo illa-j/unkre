@@ -1,0 +1,279 @@
+name: unkre-dev
+
+x-container-logging: &container-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "5"
+
+x-backend-env: &backend-env
+  POSTGRES_HOST: db
+  REDIS_URL: redis://redis:6379/0
+  PYTHONPATH: /app/src
+  MINIO_ENDPOINT: minio:9000
+  MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-unkre}
+  MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-unkre-minio-dev-secret}
+  MINIO_BUCKET: ${MINIO_BUCKET:-unkre-images}
+  MINIO_RETENTION_HOURS: ${MINIO_RETENTION_HOURS:-24}
+
+services:
+  db:
+    logging: *container-logging
+    image: postgres:16-alpine
+    container_name: unkre-db-dev
+    env_file:
+      - path: backend/.env
+        required: false
+    command:
+      - postgres
+      - -c
+      - log_statement=none
+      - -c
+      - log_min_error_statement=panic
+      - -c
+      - log_error_verbosity=terse
+    volumes:
+      - postgres-dev:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - unkre
+
+  redis:
+    logging: *container-logging
+    image: redis:7-alpine
+    container_name: unkre-redis-dev
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    ports:
+      - "127.0.0.1:${REDIS_PORT:-6379}:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 5s
+    restart: unless-stopped
+    networks:
+      - unkre
+
+  minio:
+    logging: *container-logging
+    image: ${MINIO_IMAGE:-cgr.dev/chainguard/minio:latest}
+    container_name: unkre-minio-dev
+    command: ["server", "/data", "--console-address", ":9001"]
+    # The Chainguard build runs as uid 65532; root keeps a fresh named volume writable.
+    user: "0:0"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-unkre}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-unkre-minio-dev-secret}
+    ports:
+      - "127.0.0.1:${MINIO_PORT:-9000}:9000"
+      - "127.0.0.1:${MINIO_CONSOLE_PORT:-9001}:9001"
+    volumes:
+      - minio-data:/data
+    restart: unless-stopped
+    networks:
+      - unkre
+
+  migrator:
+    logging: *container-logging
+    build:
+      context: ./backend
+    image: unkre-backend:dev
+    container_name: unkre-migrator-dev
+    command: ["alembic", "-c", "src/adapters/database/alembic.ini", "upgrade", "head"]
+    env_file:
+      - path: backend/.env
+        required: false
+    environment:
+      <<: *backend-env
+    volumes:
+      - ./backend:/app
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+    networks:
+      - unkre
+
+  seed:
+    logging: *container-logging
+    build:
+      context: ./backend
+    image: unkre-backend:dev
+    container_name: unkre-seed-dev
+    command: ["python", "scripts/seed_catalog.py"]
+    env_file:
+      - path: backend/.env
+        required: false
+    environment:
+      <<: *backend-env
+    volumes:
+      - ./backend:/app
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+    profiles: ["tools"]
+    networks:
+      - unkre
+
+  web:
+    logging: *container-logging
+    build:
+      context: ./backend
+    image: unkre-backend:dev
+    container_name: unkre-web-dev
+    command:
+      - uvicorn
+      - adapters.api.main:app
+      - --host
+      - 0.0.0.0
+      - --port
+      - "8000"
+      - --reload
+      - --reload-dir
+      - /app/src
+    env_file:
+      - path: backend/.env
+        required: false
+    environment:
+      <<: *backend-env
+    volumes:
+      - ./backend:/app
+    ports:
+      - "127.0.0.1:${BACKEND_PORT:-8000}:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_started
+      migrator:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/healthz', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
+    restart: unless-stopped
+    networks:
+      - unkre
+
+  worker:
+    logging: *container-logging
+    build:
+      context: ./backend
+    image: unkre-backend:dev
+    container_name: unkre-worker-dev
+    command: ["arq", "adapters.task_queue.worker.WorkerSettings"]
+    env_file:
+      - path: backend/.env
+        required: false
+    environment:
+      <<: *backend-env
+    volumes:
+      - ./backend:/app
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      minio:
+        condition: service_started
+      migrator:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    networks:
+      - unkre
+
+  bot:
+    logging: *container-logging
+    build:
+      context: ./backend
+    image: unkre-backend:dev
+    container_name: unkre-bot-dev
+    command: ["python", "-m", "adapters.bot.main"]
+    env_file:
+      - path: backend/.env
+        required: false
+    environment:
+      <<: *backend-env
+    volumes:
+      - ./backend:/app
+    depends_on:
+      migrator:
+        condition: service_completed_successfully
+    restart: on-failure
+    networks:
+      - unkre
+
+  frontend:
+    logging: *container-logging
+    build:
+      context: ./frontend
+      target: builder
+    image: unkre-frontend:dev
+    container_name: unkre-frontend-dev
+    command: ["sh", "-c", "find /app/.next -mindepth 1 -maxdepth 1 -exec rm -rf {} + 2>/dev/null || true; npm run dev"]
+    environment:
+      BACKEND_URL: http://web:8000
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-}
+      NEXT_PUBLIC_WELCOME_CREDITS: ${NEXT_PUBLIC_WELCOME_CREDITS:-15}
+      NEXT_PUBLIC_SUPPORT_EMAIL: ${NEXT_PUBLIC_SUPPORT_EMAIL:-}
+      NEXT_PUBLIC_PRIVACY_URL: ${NEXT_PUBLIC_PRIVACY_URL:-}
+      NEXT_PUBLIC_TERMS_URL: ${NEXT_PUBLIC_TERMS_URL:-}
+      NEXT_PUBLIC_TELEGRAM_BOT_URL: ${NEXT_PUBLIC_TELEGRAM_BOT_URL:-}
+      SITE_INDEXABLE: ${SITE_INDEXABLE:-true}
+      NEXT_TELEMETRY_DISABLED: "1"
+      NODE_ENV: development
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "127.0.0.1:${FRONTEND_PORT:-3000}:3000"
+    depends_on:
+      web:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - unkre
+
+  nginx:
+    logging: *container-logging
+    build:
+      context: ./nginx
+    image: unkre-nginx:dev
+    container_name: unkre-nginx-dev
+    ports:
+      - "127.0.0.1:${HTTP_PORT:-8080}:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      web:
+        condition: service_healthy
+      frontend:
+        condition: service_started
+    restart: unless-stopped
+    networks:
+      - unkre
+
+volumes:
+  postgres-dev:
+    driver: local
+  minio-data:
+    driver: local
+
+networks:
+  unkre:
+    driver: bridge

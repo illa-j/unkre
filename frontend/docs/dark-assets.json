@@ -1,0 +1,50 @@
+{
+  "generator": "Built-in imagegen",
+  "created": "2026-10-26",
+  "assets": [
+    {
+      "name": "hero",
+      "kind": "background",
+      "prompt": "Original photographic fine-art cinematic background for a luxurious dark AI image studio website. Wide landscape 16:9 composition, sophisticated realistic detail, deep charcoal and midnight blue shadows with subtle muted warm stone highlights. Deliberately keep the LEFT 45 percent dark, low-detail and spacious for readable website text; most scenery and focal lighting is on the right. Real photographic environment, beautiful tonal depth, premium editorial film aesthetic. No words, lettering, logos, watermark, UI, people, sculptures, or statues. Do not create an almost featureless black image: architecture or scenery must be visible. A monumental ancient stone museum hall at night, monumental weathered arches, towering dark basalt columns, worn stone floor, a thin shaft of soft warm light descending from a high oculus on the right, wisps of pale mist catching the light. A quiet sacred gallery with monumental scale, elegant depth and rich shadows. The center right is empty space where a marble statue will later be placed by the website.",
+      "source": "/home/illia/.codex/generated_images/01a17869-bcc2-7661-94c8-236c5e68ba5c/exec-288649c2-e805-456c-9ecd-e5741ffb3800.png"
+    },
+    {
+      "name": "models",
+      "kind": "background",
+      "prompt": "Original photographic fine-art cinematic background for a luxurious dark AI image studio website. Wide landscape 16:9 composition, sophisticated realistic detail, deep charcoal and midnight blue shadows with subtle muted warm stone highlights. Deliberately keep the LEFT 45 percent dark, low-detail and spacious for readable website text; most scenery and focal lighting is on the right. Real photographic environment, beautiful tonal depth, premium editorial film aesthetic. No words, lettering, logos, watermark, UI, people, sculptures, or statues. Do not create an almost featureless black image: architecture or scenery must be visible. A vast rugged volcanic stone valley and still dark reflecting water under a stormy night sky. Two distant light breaks on the right, one cool moonlit and one muted amber, reveal the valley from two perspectives. Dense atmospheric fog among cliffs, poetic otherworldly landscape, natural monumental scale.",
+      "source": "/home/illia/.codex/generated_images/01a17869-bcc2-7661-94c8-236c5e68ba5c/exec-cd45e3c9-f984-4aa5-a49f-8961c25cc8a1.png"
+    },
+    {
+      "name": "loras",
+      "kind": "background",
+      "prompt": "Original photographic fine-art cinematic background for a luxurious dark AI image studio website. Wide landscape 16:9 composition, sophisticated realistic detail, deep charcoal and midnight blue shadows with subtle muted warm stone highlights. Deliberately keep the LEFT 45 percent dark, low-detail and spacious for readable website text; most scenery and focal lighting is on the right. Real photographic environment, beautiful tonal depth, premium editorial film aesthetic. No words, lettering, logos, watermark, UI, people, sculptures, or statues. Do not create an almost featureless black image: architecture or scenery must be visible. A dark contemporary art gallery with charcoal plaster walls, glossy dark floor and architectural wall panels, subtle diffused wine-red and faded copper light projections grazing the right walls, delicate cool smoke, an atmosphere of an experimental editorial fashion set. Mostly dark neutral with just restrained chromatic reflections, no frames, artworks or screens.",
+      "source": "/home/illia/.codex/generated_images/01a17869-bcc2-7661-94c8-236c5e68ba5c/exec-15611c99-ffee-472c-b954-8a695d42f5c3.png"
+    },
+    {
+      "name": "reference",
+      "kind": "background",
+      "prompt": "Original photographic fine-art cinematic background for a luxurious dark AI image studio website. Wide landscape 16:9 composition, sophisticated realistic detail, deep charcoal and midnight blue shadows with subtle muted warm stone highlights. Deliberately keep the LEFT 45 percent dark, low-detail and spacious for readable website text; most scenery and focal lighting is on the right. Real photographic environment, beautiful tonal depth, premium editorial film aesthetic. No words, lettering, logos, watermark, UI, people, sculptures, or statues. Do not create an almost featureless black image: architecture or scenery must be visible. A cinematic large industrial loft at night, enormous arched window on the right looking out over a rainy sleeping city, cool moonlight and muted amber light from far-off windows, a weathered dark stone ledge, dark fabric curtain and very faint haze in the empty room. Beautiful distinct window composition, low-key intimate editorial atmosphere.",
+      "source": "/home/illia/.codex/generated_images/01a17869-bcc2-7661-94c8-236c5e68ba5c/exec-36a2c1fa-a6db-4e7d-9b96-5688a4d60b63.png"
+    },
+    {
+      "name": "final",
+      "kind": "background",
+      "prompt": "Original photographic fine-art cinematic background for a luxurious dark AI image studio website. Wide landscape 16:9 composition, sophisticated realistic detail, deep charcoal and midnight blue shadows with subtle muted warm stone highlights. Deliberately keep the LEFT 45 percent dark, low-detail and spacious for readable website text; most scenery and focal lighting is on the right. Real photographic environment, beautiful tonal depth, premium editorial film aesthetic. No words, lettering, logos, watermark, UI, people, sculptures, or statues. Do not create an almost featureless black image: architecture or scenery must be visible. A wide calm midnight ocean seen from a dark stone terrace through an ancient doorway at the right, a very thin pale peach band on the distant horizon before dawn, ocean fog and subtle light reflected on the dark water. The end of a gallery opening into a limitless landscape. Mostly charcoal blue, restrained warm horizon, contemplative but dramatic.",
+      "source": "/home/illia/.codex/generated_images/01a17869-bcc2-7661-94c8-236c5e68ba5c/exec-822040a6-5e7d-45a3-85f6-cc2722b77fea.png"
+    },
+    {
+      "name": "reference-result",
+      "kind": "illustration",
+      "reference": "/home/illia/Projects/own/unkre_ai/frontend/public/images/landscape.webp",
+      "prompt": "Edit the supplied coastal photograph into a new cinematic imaginative image, preserving its recognizable coastline composition, camera viewpoint, solitary adult figure placement and rugged cliff silhouettes. Transform the atmosphere into a dramatic moonlit blue hour, add pale sea mist in the distance, a luminous oversized crescent moon high above the sea, and make the adult figure wear a deep wine-red long coat. Dark charcoal slate and muted silver-blue color palette, luxurious photographic fine-art realism, subtle film grain. Preserve the portrait framing and clear relationship to the original reference. No text, watermark, borders, UI or extra people.",
+      "source": "/home/illia/.codex/generated_images/01a17869-bcc2-7661-94c8-236c5e68ba5c/exec-c32aebaa-6d87-4028-bd61-f9a695aec025.png"
+    },
+    {
+      "name": "portrait-painterly",
+      "kind": "illustration",
+      "reference": "/home/illia/Projects/own/unkre_ai/frontend/public/images/portrait.webp",
+      "prompt": "Transform this supplied adult woman's editorial portrait into an exquisite expressive classical oil painting. Preserve the same woman's facial identity, freckled skin, three-quarter over-shoulder pose, dark wavy hair, high-neck black clothing and portrait framing. Distinct visible impasto brushwork, sophisticated muted amber and umber chiaroscuro, charcoal background, loosely painted peripheral details, luminous face, fine-art old-master studio aesthetic. It must visibly read as a tactile painting rather than a photographic filter. No text, border or watermark.",
+      "source": "/home/illia/.codex/generated_images/01a17869-bcc2-7661-94c8-236c5e68ba5c/exec-9a624273-ad34-4717-8272-2bdeffb0a975.png"
+    }
+  ]
+}

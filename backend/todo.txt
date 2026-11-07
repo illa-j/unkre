@@ -1,0 +1,14 @@
+Stack: FastAPI, Postgresql, Redis, ARQ, fastapi-guard, aiogram, argon2, jwt
+Tests: async-pytest, sqlite3
+
+Models: User, Admin, Generation,
+
+[*] Database session, manager
+[*] Database models, types, enums in Domain, validators in Domain
+! To all next steps, write exceptions in domain/exceptions if it is needed
+[*] Repository interfaces and Repositories
+[*] User part: routes, services, auth
+[*] Admin part: routes, services, auth
+[*] Rest models: routes, services
+[*] Write api guard, using fastapi-guard
+[ ] Integration, E2E tests

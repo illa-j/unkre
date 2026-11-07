@@ -1,0 +1,321 @@
+{
+  "52": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "krea2_raw_bf16.safetensors",
+      "weight_dtype": "default"
+    }
+  },
+  "51": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "qwen3vl_4b_bf16.safetensors",
+      "type": "krea2",
+      "device": "default"
+    }
+  },
+  "59": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "qwen_image_vae.safetensors"
+    }
+  },
+  "81": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "51",
+        0
+      ],
+      "text": "{{prompt}}"
+    }
+  },
+  "83": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "51",
+        0
+      ],
+      "text": "{{negative_prompt}}"
+    }
+  },
+  "54": {
+    "class_type": "EmptyLatentImage",
+    "inputs": {
+      "width": "{{width}}",
+      "height": "{{height}}",
+      "batch_size": 1
+    }
+  },
+  "55": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": [
+        "107",
+        0
+      ],
+      "positive": [
+        "81",
+        0
+      ],
+      "negative": [
+        "83",
+        0
+      ],
+      "latent_image": [
+        "54",
+        0
+      ],
+      "seed": "{{seed}}",
+      "steps": 52,
+      "cfg": 3.5,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1
+    }
+  },
+  "60": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "55",
+        0
+      ],
+      "vae": [
+        "59",
+        0
+      ]
+    }
+  },
+  "63": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "60",
+        0
+      ],
+      "filename_prefix": "krea2raw/t2image"
+    }
+  },
+  "88": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "52",
+        0
+      ],
+      "lora_name": "realism-engine-krea2.safetensors",
+      "strength_model": 0
+    }
+  },
+  "89": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "88",
+        0
+      ],
+      "lora_name": "realistic-snapshot.safetensors",
+      "strength_model": 0
+    }
+  },
+  "90": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "89",
+        0
+      ],
+      "lora_name": "realism-enhancer-krea2.safetensors",
+      "strength_model": 0
+    }
+  },
+  "91": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "90",
+        0
+      ],
+      "lora_name": "purelens-realism.safetensors",
+      "strength_model": 0
+    }
+  },
+  "92": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "91",
+        0
+      ],
+      "lora_name": "famegrid.safetensors",
+      "strength_model": 0
+    }
+  },
+  "93": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "92",
+        0
+      ],
+      "lora_name": "skin-detail-slider.safetensors",
+      "strength_model": 0
+    }
+  },
+  "94": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "93",
+        0
+      ],
+      "lora_name": "realistic-slider.safetensors",
+      "strength_model": 0
+    }
+  },
+  "95": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "94",
+        0
+      ],
+      "lora_name": "phone-photography.safetensors",
+      "strength_model": 0
+    }
+  },
+  "96": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "95",
+        0
+      ],
+      "lora_name": "jpeg-core-realism.safetensors",
+      "strength_model": 0
+    }
+  },
+  "97": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "96",
+        0
+      ],
+      "lora_name": "lenovo-ultrareal.safetensors",
+      "strength_model": 0
+    }
+  },
+  "98": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "97",
+        0
+      ],
+      "lora_name": "nicegirls-ultrareal.safetensors",
+      "strength_model": 0
+    }
+  },
+  "99": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "98",
+        0
+      ],
+      "lora_name": "realistic-skin-and-face.safetensors",
+      "strength_model": 0
+    }
+  },
+  "100": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "99",
+        0
+      ],
+      "lora_name": "krea2-nsfw-v5.safetensors",
+      "strength_model": 0
+    }
+  },
+  "101": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "100",
+        0
+      ],
+      "lora_name": "krea2-aio-nsfw.safetensors",
+      "strength_model": 0
+    }
+  },
+  "102": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "101",
+        0
+      ],
+      "lora_name": "photoreal-betternudes.safetensors",
+      "strength_model": 0
+    }
+  },
+  "103": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "102",
+        0
+      ],
+      "lora_name": "nsfw-helper-slider.safetensors",
+      "strength_model": 0
+    }
+  },
+  "104": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "103",
+        0
+      ],
+      "lora_name": "pornmaster-realism-slider.safetensors",
+      "strength_model": 0
+    }
+  },
+  "105": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "104",
+        0
+      ],
+      "lora_name": "nsfw-plus.safetensors",
+      "strength_model": 0
+    }
+  },
+  "106": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "105",
+        0
+      ],
+      "lora_name": "realistic-nudes.safetensors",
+      "strength_model": 0
+    }
+  },
+  "107": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "106",
+        0
+      ],
+      "lora_name": "nsfw-unlocked.safetensors",
+      "strength_model": 0
+    }
+  }
+}

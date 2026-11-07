@@ -1,0 +1,309 @@
+{
+  "1": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "krea2_turbo_bf16.safetensors",
+      "weight_dtype": "default"
+    }
+  },
+  "2": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "qwen3-vl-4b-heretic.safetensors",
+      "type": "krea2",
+      "device": "default"
+    }
+  },
+  "3": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "qwen_image_vae.safetensors"
+    }
+  },
+  "4": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "text": "{{prompt}}",
+      "clip": [
+        "2",
+        0
+      ]
+    }
+  },
+  "5": {
+    "class_type": "ConditioningZeroOut",
+    "inputs": {
+      "conditioning": [
+        "4",
+        0
+      ]
+    }
+  },
+  "6": {
+    "class_type": "EmptyLatentImage",
+    "inputs": {
+      "width": "{{width}}",
+      "height": "{{height}}",
+      "batch_size": 1
+    }
+  },
+  "7": {
+    "class_type": "KSampler",
+    "inputs": {
+      "seed": "{{seed}}",
+      "steps": 8,
+      "cfg": 1,
+      "sampler_name": "er_sde",
+      "scheduler": "simple",
+      "denoise": 1,
+      "positive": [
+        "4",
+        0
+      ],
+      "negative": [
+        "5",
+        0
+      ],
+      "latent_image": [
+        "6",
+        0
+      ],
+      "model": [
+        "28",
+        0
+      ]
+    }
+  },
+  "8": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "7",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    }
+  },
+  "9": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "8",
+        0
+      ],
+      "filename_prefix": "krea2_turbo_all_api"
+    }
+  },
+  "10": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "lora_name": "lenovo-ultrareal.safetensors",
+      "strength_model": 0
+    }
+  },
+  "11": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "10",
+        0
+      ],
+      "lora_name": "nicegirls-ultrareal.safetensors",
+      "strength_model": 0
+    }
+  },
+  "12": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "11",
+        0
+      ],
+      "lora_name": "realistic-snapshot.safetensors",
+      "strength_model": 0
+    }
+  },
+  "13": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "12",
+        0
+      ],
+      "lora_name": "realism-engine-krea2.safetensors",
+      "strength_model": 0
+    }
+  },
+  "14": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "13",
+        0
+      ],
+      "lora_name": "cinematic-shot.safetensors",
+      "strength_model": 0
+    }
+  },
+  "15": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "14",
+        0
+      ],
+      "lora_name": "famegrid.safetensors",
+      "strength_model": 0
+    }
+  },
+  "16": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "15",
+        0
+      ],
+      "lora_name": "ultrareal-moss-krea2-klein9b.safetensors",
+      "strength_model": 0
+    }
+  },
+  "17": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "16",
+        0
+      ],
+      "lora_name": "bloomgirls-ultrarealism.safetensors",
+      "strength_model": 0
+    }
+  },
+  "18": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "17",
+        0
+      ],
+      "lora_name": "realistic-skin-and-face.safetensors",
+      "strength_model": 0
+    }
+  },
+  "19": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "18",
+        0
+      ],
+      "lora_name": "adjust-details-photorealism.safetensors",
+      "strength_model": 0
+    }
+  },
+  "20": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "19",
+        0
+      ],
+      "lora_name": "grainscape-ultrareal.safetensors",
+      "strength_model": 0
+    }
+  },
+  "21": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "20",
+        0
+      ],
+      "lora_name": "realism-enhancer-krea2.safetensors",
+      "strength_model": 0
+    }
+  },
+  "22": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "21",
+        0
+      ],
+      "lora_name": "krea2-nsfw-v5.safetensors",
+      "strength_model": 0
+    }
+  },
+  "23": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "22",
+        0
+      ],
+      "lora_name": "getphat-reality-nsfw.safetensors",
+      "strength_model": 0
+    }
+  },
+  "24": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "23",
+        0
+      ],
+      "lora_name": "photoreal-betternudes.safetensors",
+      "strength_model": 0
+    }
+  },
+  "25": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "24",
+        0
+      ],
+      "lora_name": "mystic-xxx.safetensors",
+      "strength_model": 0
+    }
+  },
+  "26": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "25",
+        0
+      ],
+      "lora_name": "nsfw-krea2-flux.safetensors",
+      "strength_model": 0
+    }
+  },
+  "27": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "26",
+        0
+      ],
+      "lora_name": "nsfw-unlocked.safetensors",
+      "strength_model": 0
+    }
+  },
+  "28": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "27",
+        0
+      ],
+      "lora_name": "krea2-aio-nsfw.safetensors",
+      "strength_model": 0
+    }
+  }
+}

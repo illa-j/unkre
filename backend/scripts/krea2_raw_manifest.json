@@ -1,0 +1,202 @@
+[
+  {
+    "node": "88",
+    "lora_name": "realism-engine-krea2.safetensors",
+    "title": "Realism Engine Ideogram 4 + Krea 2",
+    "category": "realism",
+    "recommended_strength": 1.0,
+    "workflows": ["krea2_raw_t2image_api"],
+    "civitai_id": "2688234",
+    "source": "https://civitai.com/models/2688234"
+  },
+  {
+    "node": "89",
+    "lora_name": "realistic-snapshot.safetensors",
+    "title": "Realistic Snapshot (MOSS-IMAGE + KREA2 + ZIT)",
+    "category": "realism",
+    "recommended_strength": 1.0,
+    "workflows": ["krea2_raw_t2image_api"],
+    "civitai_id": "2268008",
+    "source": "https://civitai.com/models/2268008"
+  },
+  {
+    "node": "90",
+    "lora_name": "realism-enhancer-krea2.safetensors",
+    "title": "Realism Enhancer Krea2",
+    "category": "realism",
+    "recommended_strength": 0.7,
+    "workflows": ["krea2_raw_t2image_api"],
+    "civitai_id": "2727284",
+    "source": "https://civitai.com/models/2727284"
+  },
+  {
+    "node": "91",
+    "lora_name": "purelens-realism.safetensors",
+    "title": "PureLens Realism",
+    "category": "realism",
+    "recommended_strength": 0.8,
+    "workflows": ["krea2_raw_t2image_api"],
+    "civitai_id": "2728005",
+    "source": "https://civitai.com/models/2728005"
+  },
+  {
+    "node": "92",
+    "lora_name": "famegrid.safetensors",
+    "title": "Famegrid (Krea 2 / Z-Image / Qwen) - Realism LoRA",
+    "category": "realism",
+    "recommended_strength": 0.9,
+    "workflows": ["krea2_raw_t2image_api"],
+    "civitai_id": "2088956",
+    "source": "https://civitai.com/models/2088956"
+  },
+  {
+    "node": "93",
+    "lora_name": "skin-detail-slider.safetensors",
+    "title": "Skin Detail Slider - (Krea2 + ZIT)",
+    "category": "realism",
+    "recommended_strength": 0.5,
+    "workflows": ["krea2_raw_t2image_api"],
+    "civitai_id": "2682644",
+    "source": "https://civitai.com/models/2682644"
+  },
+  {
+    "node": "94",
+    "lora_name": "realistic-slider.safetensors",
+    "title": "Realistic Slider - (Krea-2)",
+    "category": "realism",
+    "recommended_strength": 0.5,
+    "workflows": ["krea2_raw_t2image_api"],
+    "civitai_id": "2727636",
+    "source": "https://civitai.com/models/2727636"
+  },
+  {
+    "node": "95",
+    "lora_name": "phone-photography.safetensors",
+    "title": "Phone Photography (2000-2025)",
+    "category": "realism",
+    "recommended_strength": 0.8,
+    "workflows": ["krea2_raw_t2image_api"],
+    "civitai_id": "2537408",
+    "source": "https://civitai.com/models/2537408"
+  },
+  {
+    "node": "96",
+    "lora_name": "jpeg-core-realism.safetensors",
+    "title": "JPEG_Core: RAW Realism & Imperfection | KREA 2",
+    "category": "realism",
+    "recommended_strength": 0.8,
+    "workflows": ["krea2_raw_t2image_api"],
+    "civitai_id": "2765898",
+    "source": "https://civitai.com/models/2765898"
+  },
+  {
+    "node": "97",
+    "lora_name": "lenovo-ultrareal.safetensors",
+    "title": "Lenovo UltraReal",
+    "category": "realism",
+    "recommended_strength": 0.8,
+    "workflows": ["krea2_raw_t2image_api"],
+    "civitai_id": "1662740",
+    "source": "https://civitai.com/models/1662740"
+  },
+  {
+    "node": "98",
+    "lora_name": "nicegirls-ultrareal.safetensors",
+    "title": "NiceGirls UltraReal",
+    "category": "realism",
+    "recommended_strength": 0.8,
+    "workflows": ["krea2_raw_t2image_api"],
+    "civitai_id": "1862761",
+    "source": "https://civitai.com/models/1862761"
+  },
+  {
+    "node": "99",
+    "lora_name": "realistic-skin-and-face.safetensors",
+    "title": "Realistic Skin & Face - Professional_photography",
+    "category": "realism",
+    "recommended_strength": 0.8,
+    "workflows": ["krea2_raw_t2image_api"],
+    "civitai_id": "1426727",
+    "source": "https://civitai.com/models/1426727"
+  },
+  {
+    "node": "100",
+    "lora_name": "krea2-nsfw-v5.safetensors",
+    "title": "Krea 2 NSFW V5",
+    "category": "nsfw",
+    "recommended_strength": 0.9,
+    "workflows": ["krea2_raw_t2image_api"],
+    "civitai_id": "2725430",
+    "source": "https://civitai.com/models/2725430"
+  },
+  {
+    "node": "101",
+    "lora_name": "krea2-aio-nsfw.safetensors",
+    "title": "Krea2 AIO NSFW LoRA",
+    "category": "nsfw",
+    "recommended_strength": 0.8,
+    "workflows": ["krea2_raw_t2image_api"],
+    "civitai_id": "2732306",
+    "source": "https://civitai.com/models/2732306"
+  },
+  {
+    "node": "102",
+    "lora_name": "photoreal-betternudes.safetensors",
+    "title": "PhotoReal BetterNudes / NSFW",
+    "category": "nsfw",
+    "recommended_strength": 0.8,
+    "workflows": ["krea2_raw_t2image_api"],
+    "civitai_id": "2174081",
+    "source": "https://civitai.com/models/2174081"
+  },
+  {
+    "node": "103",
+    "lora_name": "nsfw-helper-slider.safetensors",
+    "title": "NSFW Helper Slider - Krea2",
+    "category": "nsfw",
+    "recommended_strength": 0.5,
+    "workflows": ["krea2_raw_t2image_api"],
+    "civitai_id": "2779347",
+    "source": "https://civitai.com/models/2779347"
+  },
+  {
+    "node": "104",
+    "lora_name": "pornmaster-realism-slider.safetensors",
+    "title": "PornMaster Krea2 Realism slider",
+    "category": "nsfw",
+    "recommended_strength": 0.5,
+    "workflows": ["krea2_raw_t2image_api"],
+    "civitai_id": "2742129",
+    "source": "https://civitai.com/models/2742129"
+  },
+  {
+    "node": "105",
+    "lora_name": "nsfw-plus.safetensors",
+    "title": "0x7 - NSFW+ Krea2",
+    "category": "nsfw",
+    "recommended_strength": 0.8,
+    "workflows": ["krea2_raw_t2image_api"],
+    "civitai_id": "2742640",
+    "source": "https://civitai.com/models/2742640"
+  },
+  {
+    "node": "106",
+    "lora_name": "realistic-nudes.safetensors",
+    "title": "Realistic Nudes - NSFW",
+    "category": "nsfw",
+    "recommended_strength": 0.8,
+    "workflows": ["krea2_raw_t2image_api"],
+    "civitai_id": "1838378",
+    "source": "https://civitai.com/models/1838378"
+  },
+  {
+    "node": "107",
+    "lora_name": "nsfw-unlocked.safetensors",
+    "title": "NSFW UNLOCKED [LORA] FLUX / FLUX2 KLEIN / Z_IMAGE / KREA2",
+    "category": "nsfw",
+    "recommended_strength": 0.8,
+    "workflows": ["krea2_raw_t2image_api"],
+    "civitai_id": "2063193",
+    "source": "https://civitai.com/models/2063193"
+  }
+]

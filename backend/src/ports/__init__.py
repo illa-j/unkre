@@ -1,0 +1,2 @@
+from ports.database_manager import DatabaseManagerInterface
+from ports.repositories import CrudRepositoryInterface

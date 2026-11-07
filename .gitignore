@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# Environment files (keep the examples)
+.env
+.env.*
+!.env.example
+!**/.env.example
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# Tooling / local agent state
+.DS_Store
+*.log
+.freebuff/
+.agents/
+.codex/
+.aws/
+
+# Local data
+*.sqlite3

@@ -1,0 +1,141 @@
+[
+  {
+    "node": "10",
+    "lora_name": "qwen2_1-femaledVaginus-nsfw-v1_3-fine_L22-31.safetensors",
+    "title": "FemaleDVaginus NSFW v1.3",
+    "category": "nsfw",
+    "recommended_strength": 0.64,
+    "workflows": [
+      "Qwen Image 2.1",
+      "qwen_image21_ui"
+    ]
+  },
+  {
+    "node": "11",
+    "lora_name": "Pornmaster_QI2.1_Breasts_Slider_V1.safetensors",
+    "title": "Pornmaster QI2.1 Breasts Slider v1",
+    "category": "nsfw",
+    "recommended_strength": 0.003,
+    "workflows": [
+      "Qwen Image 2.1",
+      "qwen_image21_ui"
+    ]
+  },
+  {
+    "node": "12",
+    "lora_name": "lenovo_qwen21.safetensors",
+    "title": "Lenovo UltraReal",
+    "category": "realism",
+    "recommended_strength": 0.08,
+    "workflows": [
+      "Qwen Image 2.1",
+      "qwen_image21_ui"
+    ],
+    "civitai_id": "1662740",
+    "source": "https://civitai.red/models/1662740"
+  },
+  {
+    "node": "13",
+    "lora_name": "nicegirls_v2_qwen21.safetensors",
+    "title": "NiceGirls UltraReal v2",
+    "category": "realism",
+    "recommended_strength": 0.08,
+    "workflows": [
+      "Qwen Image 2.1",
+      "qwen_image21_ui"
+    ],
+    "civitai_id": "1862761",
+    "source": "https://civitai.red/models/1862761"
+  },
+  {
+    "node": "14",
+    "lora_name": "samsung_qwen21.safetensors",
+    "title": "SamsungCam UltraReal",
+    "category": "realism",
+    "recommended_strength": 0.08,
+    "workflows": [
+      "Qwen Image 2.1",
+      "qwen_image21_ui"
+    ],
+    "civitai_id": "1551668",
+    "source": "https://civitai.red/models/1551668"
+  },
+  {
+    "node": "15",
+    "lora_name": "qwen21_fullbody_pass2_3270469.safetensors",
+    "title": "Qwen Image 2.1 Full Body",
+    "category": "composition",
+    "recommended_strength": 0.08,
+    "workflows": [
+      "Qwen Image 2.1",
+      "qwen_image21_ui"
+    ],
+    "civitai_id": "2983070",
+    "source": "https://civitai.red/models/2983070"
+  },
+  {
+    "node": "16",
+    "lora_name": "casual_snapshot_realism_qwen21.safetensors",
+    "title": "Casual Snapshot Realism",
+    "category": "realism",
+    "recommended_strength": 0.16,
+    "workflows": [
+      "Qwen Image 2.1",
+      "qwen_image21_ui"
+    ],
+    "civitai_id": "2790570",
+    "source": "https://civitai.red/models/2790570"
+  },
+  {
+    "node": "17",
+    "lora_name": "purelens_qwen21.safetensors",
+    "title": "PureLens Realism",
+    "category": "realism",
+    "recommended_strength": 0.16,
+    "workflows": [
+      "Qwen Image 2.1",
+      "qwen_image21_ui"
+    ],
+    "civitai_id": "2728005",
+    "source": "https://civitai.red/models/2728005"
+  },
+  {
+    "node": "18",
+    "lora_name": "NSFW Qwen by TheseAlpacas V2.safetensors",
+    "title": "NSFW Qwen v2",
+    "category": "nsfw",
+    "recommended_strength": 0.08,
+    "workflows": [
+      "Qwen Image 2.1",
+      "qwen_image21_ui"
+    ],
+    "civitai_id": "2958918",
+    "source": "https://civitai.red/models/2958918"
+  },
+  {
+    "node": "19",
+    "lora_name": "Qwen_2.1_Unlocked_V1.safetensors",
+    "title": "NSFW Unlocked V1",
+    "category": "nsfw",
+    "recommended_strength": 0.05,
+    "workflows": [
+      "Qwen Image 2.1",
+      "qwen_image21_ui"
+    ],
+    "civitai_id": "2063193",
+    "source": "https://civitai.red/models/2063193"
+  },
+  {
+    "node": "20",
+    "lora_name": "nsfw-posture-v3.safetensors",
+    "title": "nsfw-posture-v3",
+    "category": "nsfw",
+    "recommended_strength": 0.08,
+    "workflows": [
+      "Qwen Image 2.1",
+      "qwen_image21_ui"
+    ],
+    "civitai_id": "2988215",
+    "source": "https://civitai.red/models/2988215"
+  }
+]
