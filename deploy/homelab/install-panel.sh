@@ -13,8 +13,8 @@ if ! command -v curl >/dev/null 2>&1; then
   pkg install -y curl
 fi
 
-echo "[1/6] Installing Python dependencies…"
-python -m pip install --quiet --upgrade flask waitress
+echo "[1/6] Checking Python…"
+python --version >/dev/null
 
 echo "[2/6] Downloading panel…"
 mkdir -p "$PANEL_DIR"
